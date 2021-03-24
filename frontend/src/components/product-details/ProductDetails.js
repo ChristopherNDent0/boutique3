@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, Route } from 'react-router-dom';
 
-export default class FicheProduit extends React.Component {
+export default class ProductDetails extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

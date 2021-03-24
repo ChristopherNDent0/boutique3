@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link, Route, Switch } from 'react-router-dom';
-import ProduitList from './ProduitList';
-import FicheProduit from './FicheProduit';
-import ProduitForm from './ProduitForm';
-import ProductDisplay from './ProductDisplay';
+import ProduitList from '../product-list/ProduitList';
+import ProductDetails from '../product-details/ProductDetails';
+import ProduitForm from '../product-form/ProduitForm';
+import ProductDisplay from '../../api/ProductDisplay';
 
 
 
@@ -20,7 +20,7 @@ export default class Produits extends React.Component {
 
                 <Switch>
                     <Route path={this.props.match.path + '/edit/:id'} component={ProduitForm} />
-                    <Route path={this.props.match.path + '/:id'} component={FicheProduit} />
+                    <Route path={this.props.match.path + '/:id'} component={ProductDetails} />
                     <Route exact path={this.props.match.path + '/'} component={ProductDisplay} />
                 </Switch>
 

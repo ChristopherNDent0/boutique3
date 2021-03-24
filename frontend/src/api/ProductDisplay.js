@@ -1,7 +1,7 @@
 import { logDOM } from '@testing-library/react';
 import React from 'react';
-import ProductTable from './ProductTable';
-import ProductForm from './ProductForm';
+import ProductTable from '../components/product-table/ProductTable';
+import ProductForm from '../components/product-form/ProductForm';
 
 export default class ProductDisplay extends React.Component{
   constructor(props){
