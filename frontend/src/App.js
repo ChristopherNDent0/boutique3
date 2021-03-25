@@ -1,8 +1,9 @@
-
+import logo from './logo.svg';
 import './App.css';
 import {Link, Route, Switch} from 'react-router-dom';
-import Produits from '../components/product/Product';
-import Categories from '../components/categories/Categories';
+import Produits from './Produits';
+import Categories from './Categories';
+import ProductDisplay from './ProductDisplay';
 
 function App() {
   return (
@@ -13,9 +14,8 @@ function App() {
 
       </header>
       <main>
-      <Route path="/products" component={Produits}/>
+      <Route path="/products" component={ProductDisplay}/>
       <Route path="/categories" component={Categories}/>
-
       </main>
     </div>
   );
