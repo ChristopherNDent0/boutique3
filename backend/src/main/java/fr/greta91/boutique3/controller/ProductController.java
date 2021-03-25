@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import fr.greta91.boutique3.model.Category;
 import fr.greta91.boutique3.model.Product;
+import fr.greta91.boutique3.repos.CategoryRepository;
 import fr.greta91.boutique3.repos.ProductRepository;
 
 @CrossOrigin(maxAge = 3600, origins = "http://localhost:3000")
@@ -23,10 +26,20 @@ public class ProductController {
 
 	@Autowired
 	ProductRepository productRepo;
+	
+	@Autowired
+	CategoryRepository categoryRepo;
 
 	@GetMapping("")
 	public List<Product> getProducts() {
 		List<Product> list = productRepo.findAll();
+
+		return list;
+	}
+	
+	@GetMapping("/categories")
+	public List<Category> getCategories() {
+		List<Category> list = categoryRepo.findAll();
 
 		return list;
 	}

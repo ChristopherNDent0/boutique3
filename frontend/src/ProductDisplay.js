@@ -83,9 +83,6 @@ export default class ProductDisplay extends React.Component{
               <ProductTable {...props} products={this.state.products} 
               deleteCallback={this.deleteProduct}/>
             )} />
-
-        
-
         <Redirect to={this.props.match.path}/>
        </Switch>
       )
