@@ -9,16 +9,15 @@ export default class ProductDisplay extends React.Component{
   constructor(props){
     super(props);
     this.state = {
+      categories : [],
       networkError: false,
       startEditing : false,
       product : {},
-      // productId: 1000,
       products : [
    
       ]
     }
   }
-  
 
   deleteProduct = (productId)=>{//productId = 2 => products=[1,3]
     fetch(`http://localhost:8080/products/${productId}`, {
@@ -34,6 +33,7 @@ export default class ProductDisplay extends React.Component{
   cancel = ()=>{
     this.setState({startEditing: false, product: {}});
   }
+
   save = (product)=>{
     //ajout d'un nouveau produit
     if (!product.id) {
@@ -67,6 +67,7 @@ export default class ProductDisplay extends React.Component{
       
     }
   }
+
   render(){
     if (this.state.networkError) {
       return <p>problème de réseau !</p>
@@ -76,7 +77,7 @@ export default class ProductDisplay extends React.Component{
       <Switch>
         <Route path={this.props.match.path + '/create'} component={ProduitForm}/>
         <Route path={this.props.match.path + '/edit/:id'} render={(props) => (
-              <ProduitForm {...props} cancelCallback={this.cancel} 
+              <ProduitForm {...props} categories={this.state.categories} cancelCallback={this.cancel} 
               saveCallback={this.save}/>
             )} />
         <Route path={this.props.match.path + '/'} render={(props) => (
@@ -88,20 +89,41 @@ export default class ProductDisplay extends React.Component{
       )
     }
   }
+  
   componentDidMount = ()=>{
-    let promesse= fetch("http://localhost:8080/products");
-    promesse
-    .then((data)=>{
-      console.log(data);
-      return data.json()
-    })
-    .then((res)=> {
-      console.log(res);
-      this.setState({products: res})
+    Promise.all([
+        fetch("http://localhost:8080/products").then(res => res.json()),
+        fetch(`http://localhost:8080/products/categories`).then(res => res.json())
+    ]).then(([urlOneData, urlTwoData]) => {
+        this.setState({
+          products: urlOneData,
+          categories : urlTwoData
+
+          // categories : urlTwoData.map((c)=> this.state.categories.concat(c))
+        });
+        console.log("BYE!!!!");
+        console.log(this.state.categories);
+        console.log(this.state.products);
     })
     .catch((err)=>{
-      console.log(err)
-      this.setState({networkError: true})
-    })
-  }
+        console.log(err)
+        this.setState({networkError: true})
+      })
+  // componentDidMount = ()=>{
+  //   let promesse= fetch("http://localhost:8080/products");
+  //   promesse
+  //   .then((data)=>{
+  //     console.log(data);
+  //     return data.json()
+  //   })
+  //   .then((res)=> {
+  //     console.log(res);
+  //     this.setState({products: res})
+  //   })
+  //   .catch((err)=>{
+  //     console.log(err)
+  //     this.setState({networkError: true})
+  //   })
+  // }
+}
 }
