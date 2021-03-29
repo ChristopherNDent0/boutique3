@@ -70,7 +70,7 @@ export default class ProductDisplay extends React.Component{
       })
     }
     else{
-      fetch(`http://localhost:8080/products/${product.productId}`, {
+      fetch(`http://localhost:8080/products/edit/${product.productId}`, {
         method: "PUT",
         // mode: 'no-cors',
         headers: {"Content-type": "application/json", "Access-Control-Allow-Origin": "http://localhost:8080", 'Accept' :'application/json', 'Authorization': '*'},

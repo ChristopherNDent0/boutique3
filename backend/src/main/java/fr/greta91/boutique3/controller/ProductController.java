@@ -24,7 +24,8 @@ import fr.greta91.boutique3.repos.CategoryRepository;
 import fr.greta91.boutique3.repos.ProductRepository;
 
 //@CrossOrigin(maxAge = 3600, origins = "http://localhost:3000")
-@CrossOrigin(origins = "*", allowedHeaders = "*")	
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(maxAge = 3600, origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/products")
 public class ProductController {
