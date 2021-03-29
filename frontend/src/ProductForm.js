@@ -48,7 +48,7 @@ export default class ProductForm extends React.Component{
         <input type="text" name="category" value={this.state.category.categoryName} placeholder="catégorie" onChange={this.handleChange}/>
         <input type="number" name="price" value={this.state.price} placeholder="Prix" onChange={this.handleChange}/>
         <button onClick={this.save}>Enregistrer</button>
-        <button onClick={this.props.cancelCallback}>Annuler</button>
+        <button onClick={this.props.cancelCallback}>Annuler</button> 
       </form>
 
     );

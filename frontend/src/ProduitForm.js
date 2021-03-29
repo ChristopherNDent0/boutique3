@@ -18,6 +18,8 @@ export default class ProduitForm extends React.Component{
                 price: ""
             }
         }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleChangeCategory = this.handleChangeCategory.bind(this);
     }
 
     render(){
@@ -27,42 +29,65 @@ export default class ProduitForm extends React.Component{
         const edit = !!this.props.productId;
         return (
             <form>
-                <div style={edit ? {} : { display: 'none' }}>
-                    id : <input name="id" readOnly value={this.props.match.params.id} />
+                <div>
+                    id : <input name="productId" type="number" readOnly value={this.props.match.params.id} />
                 </div>
                 <div>
-                    Nom : <input name="name" value={this.state.product.productName} onChange={this.handleChange}/>
+                    Nom : <input name="productName" type="text" value={this.state.product.productName} onChange={this.handleChange}/>
                 </div>
                 <div>
-                    Stock : <input name="stock" value={this.state.product.stock} onChange={this.handleChange}/>
+                    Stock : <input name="stock" type="number" value={this.state.product.stock} onChange={this.handleChange}/>
                 </div>
                 <div>
-                    Description : <input name="description" value={this.state.product.description} onChange={this.handleChange}/>
+                    Description : <input name="description" type="text" value={this.state.product.description} onChange={this.handleChange}/>
                 </div>
                 <div>
-                    urlImage : <input name="urlImage" value={this.state.product.urlImage} onChange={this.handleChange}/>
+                    urlImage : <input name="urlImage" type="text" value={this.state.product.urlImage} onChange={this.handleChange}/>
                 </div>
                 <div>
-                    Prix : <input name="prix" value={this.state.product.price} onChange={this.handleChange}/>
+                    Prix : <input name="price" type="number" value={this.state.product.price} onChange={this.handleChange}/>
                 </div>
                 <label htmlFor="category">Categorie</label>
-                <select name="category" id="category">
-                    {this.props.categories.map((c)=> {return(<option key={c.categoryId}>{c.categoryName}</option>);})}
-                    {/* {/* <option value="cat1">cat1</option> */}
-                    {/* <option value="cat2">cat2</option> */}
-                    {/* <option value="cat3">cat3</option> */}
+                <select name="category" id="category" onChange={this.handleChangeCategory}>
+                    {this.props.categories.map((c)=> {return(<option key={c.categoryId} name={c.categoryId}>{c.categoryName}</option>);})}
                 </select>
+                <button onClick={this.save}>Enregistrer</button>
+                <button onClick={this.props.cancelCallback}>Annuler</button>
             </form>
         )
     }
+    handleChange(event) {
+        this.setState((state)=>state.product[event.target.name] = event.target.value)
+      }
 
-    handleChange = (evt)=>{
-        console.log(evt);
-        evt.persist();
-        let field = evt.target.name;
-        let value = evt.target.value;
-        this.setState((state)=>state[field] = value)
-        // this.setState((state)=>state[evt.target.name] = evt.target.value)
+    handleChangeCategory(event){
+        this.setState((state)=>state.product.category[`categoryId`] = event.target.value)
+      }
+
+    // handleChange = (evt)=>{
+    //     console.log(evt);
+    //     evt.persist();
+    //     let field = evt.target.name;
+    //     let value = evt.target.value;
+    //     this.setState((state)=>state[field] = value)
+    //     // this.setState((state)=>state[evt.target.name] = evt.target.value)
+    //   }
+
+      save = (evt)=>{
+        evt.preventDefault();//désactive l'action/opération par défaut du navigateur pour l'évènement onClick sur un bouton de form
+        let product = {
+          productId : this.state.product.productId,
+          productName : this.state.product.productName,
+          stock : this.state.product.stock,
+          description : this.state.product.description,
+          urlImage : this.state.product.urlImage,
+          category :{      
+            categoryId : this.state.product.category.categoryId,
+            // categoryName : this.state.product.category.categoryName
+        },
+          price : this.state.product.price,
+        }
+        this.props.saveCallback(product);
       }
 
     componentDidMount = ()=>{
@@ -72,6 +97,7 @@ export default class ProduitForm extends React.Component{
             this.setState({
                 product: urlOneData,
             });
+            console.log(urlOneData)
         })
         .catch((err)=>{
             console.log(err)

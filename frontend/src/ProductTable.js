@@ -24,10 +24,12 @@ export default class ProductTable extends React.Component{
                 <td>{product.productName}</td>
                 <td>{product.category.categoryName}</td>
                 <td>{product.price}&euro;</td>
-                <td><img src={`/images/${product.name}.jpg`} width="50" height="50"/></td>
+                {/* <td><img src={`/images/${product.name}.jpg`} width="50" height="50"/></td> */}
+                <td><img src={product.urlImage} width="250" height="150"/></td>
                 <td>
                 <Link to={this.props.match.url + `/edit/${product.productId}`}>Modifier</Link>
-                  <button onClick={()=>this.props.deleteCallback(product.id)}>Supprimer</button>
+                <Link to={this.props.match.url + `/${product.productId}`}>Afficher</Link>
+                  {/* <button onClick={()=>this.props.deleteCallback(product.id)}>Supprimer</button> */}
                 </td>
               </tr>
             );

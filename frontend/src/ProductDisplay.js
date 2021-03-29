@@ -4,6 +4,7 @@ import ProductTable from './ProductTable';
 import ProductForm from './ProductForm';
 import { Link, Redirect, Route, Switch } from 'react-router-dom';
 import ProduitForm from './ProduitForm';
+import FicheProduit from './FicheProduit';
 
 export default class ProductDisplay extends React.Component{
   constructor(props){
@@ -32,15 +33,17 @@ export default class ProductDisplay extends React.Component{
 
   cancel = ()=>{
     this.setState({startEditing: false, product: {}});
+    //this.push.history(this.props.path + '/products')
   }
 
   save = (product)=>{
     //ajout d'un nouveau produit
-    if (!product.id) {
+    if (!product.productId) {
       // product.id = this.state.productId;
       fetch("http://localhost:8080/products", {
         method: "POST",
-        headers: {"Content-type": "application/json"},
+        // mode: 'no-cors',
+        headers: {"Content-type": "application/json", "Access-Control-Allow-Origin": "http://localhost:8080", 'Accept' :'application/json', 'Authorization': '*'},
         body: JSON.stringify(product)
       })
       .then((data)=>data.json())
@@ -52,9 +55,10 @@ export default class ProductDisplay extends React.Component{
       })
     }
     else{
-      fetch(`http://localhost:8080/products/${product.id}`, {
+      fetch(`http://localhost:8080/products/${product.productId}`, {
         method: "PUT",
-        headers: {"Content-type": "application/json"},
+        // mode: 'no-cors',
+        headers: {"Content-type": "application/json", "Access-Control-Allow-Origin": "http://localhost:8080", 'Accept' :'application/json', 'Authorization': '*'},
         body: JSON.stringify(product)
       })
       .then((data)=>data.json())
@@ -64,7 +68,7 @@ export default class ProductDisplay extends React.Component{
           startEditing: false
         }
         ))
-      
+      this.props.history.push('/products');
     }
   }
 
@@ -75,6 +79,7 @@ export default class ProductDisplay extends React.Component{
       // return this.state.startEditing ? // pas besoin de start editing
       return(
       <Switch>
+        {/* <Route exact path={this.props.match.path + '/:id'} component={FicheProduit}/> */}
         <Route path={this.props.match.path + '/create'} component={ProduitForm}/>
         <Route path={this.props.match.path + '/edit/:id'} render={(props) => (
               <ProduitForm {...props} categories={this.state.categories} cancelCallback={this.cancel} 

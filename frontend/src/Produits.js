@@ -20,10 +20,10 @@ export default class Produits extends React.Component {
             <React.Fragment>
 
                 <Switch>
-                    <Route path={this.props.match.path + '/create'} component={ProduitForm}/>
+                    {/* <Route path={this.props.match.path + '/create'} component={ProduitForm}/>
                     <Route path={this.props.match.path + '/edit/:id'} component={ProduitForm} />
                     <Route path={this.props.match.path + '/:id'} component={FicheProduit} />
-                    <Route exact path={this.props.match.path + '/'} component={ProductDisplay} />
+                    <Route exact path={this.props.match.path + '/'} component={ProductDisplay} /> */}
                 </Switch>
 
             </React.Fragment>
