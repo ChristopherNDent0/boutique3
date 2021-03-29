@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.greta91.boutique3.model.Category;
@@ -22,7 +24,7 @@ import fr.greta91.boutique3.repos.CategoryRepository;
 import fr.greta91.boutique3.repos.ProductRepository;
 
 //@CrossOrigin(maxAge = 3600, origins = "http://localhost:3000")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")	
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -34,6 +36,7 @@ public class ProductController {
 	CategoryRepository categoryRepo;
 
 	@GetMapping("")
+	//@RequestMapping(method= RequestMethod.GET)
 	public List<Product> getProducts() {
 		List<Product> list = productRepo.findAll();
 
@@ -46,8 +49,19 @@ public class ProductController {
 
 		return list;
 	}
+	
+	@GetMapping("/productName/{productName}")
+	//@RequestMapping(value = "/productName/{productName}", method = RequestMethod.GET)
+	public List<Product> getProductsByName(@PathVariable String productName) {
+		List<Product> list = productRepo.findByProductName(productName);
+		return list;
+	}
 
+	
+	//@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	//public ResponseEntity<Product> getProduct(@RequestParam Integer id) {
 	@GetMapping("/{id}")
+	//public ResponseEntity<Product> getProduct(@RequestParam(value="id") int id){
 	public ResponseEntity<Product> getProduct(@PathVariable int id) {
 		Optional<Product> optional = productRepo.findById(id);
 		if (optional.isPresent()) {

@@ -1,14 +1,27 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 
 export default class ProductTable extends React.Component{
   constructor(props){
     super(props);
+    this.state = {
+      rechercheValue: ""
+    }
+    this.handleChange = this.handleChange.bind(this);    
+  }
+
+  handleChange(event) {
+    this.setState((state)=>state.rechercheValue = event.target.value)
   }
 
   render(){
     return(
       <React.Fragment>
+        <form>
+        Recherche par nom <input name="searchByName" type="text" placeholder="Tapez votre recherche" value={this.state.rechercheValue} onChange={this.handleChange}/>
+        <Link to= {this.props.match.url + `/productName/${this.state.rechercheValue}`}>Recherche</Link>
+        {/* <button onClick={()=>this.props.searchByNameCallback(this.state.rechercheValue)}>Recherche</button> */}
+        </form>
         <table>
           <caption>Produits</caption>
           <tr>

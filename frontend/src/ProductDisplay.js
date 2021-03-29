@@ -1,16 +1,18 @@
 import { logDOM } from '@testing-library/react';
 import React from 'react';
 import ProductTable from './ProductTable';
-import ProductForm from './ProductForm';
 import { Link, Redirect, Route, Switch } from 'react-router-dom';
 import ProduitForm from './ProduitForm';
 import FicheProduit from './FicheProduit';
+import SearchProduct from './SearchProduct';
 
 export default class ProductDisplay extends React.Component{
   constructor(props){
     super(props);
     this.state = {
+      searchName : "",
       categories : [],
+      Recherche : false,
       networkError: false,
       startEditing : false,
       product : {},
@@ -19,6 +21,19 @@ export default class ProductDisplay extends React.Component{
       ]
     }
   }
+
+  // searchByName = (productName)=>{
+  //   this.state.Recherche = true;
+  //   this.state.searchName = productName
+  //   fetch(`http://localhost:8080/products/productName/${productName}`, {
+  //   method: "GET"
+  //   })
+  //   .then((data)=>data.json())
+  //   .then((res)=>this.setState({
+  //       products: res
+  //     })
+  //     )
+  //   }
 
   deleteProduct = (productId)=>{//productId = 2 => products=[1,3]
     fetch(`http://localhost:8080/products/${productId}`, {
@@ -32,8 +47,8 @@ export default class ProductDisplay extends React.Component{
   }
 
   cancel = ()=>{
-    this.setState({startEditing: false, product: {}});
-    //this.push.history(this.props.path + '/products')
+    this.setState({product: {}});
+    this.props.history.push(this.props.match.path)
   }
 
   save = (product)=>{
@@ -64,7 +79,7 @@ export default class ProductDisplay extends React.Component{
       .then((data)=>data.json())
       .then((res)=> this.setState(
         {
-          products: this.state.products.map((p)=> p.id === product.id ? res : p), 
+          products: this.state.products.map((p)=> p.productId === product.productId ? res : p), 
           startEditing: false
         }
         ))
@@ -79,7 +94,8 @@ export default class ProductDisplay extends React.Component{
       // return this.state.startEditing ? // pas besoin de start editing
       return(
       <Switch>
-        {/* <Route exact path={this.props.match.path + '/:id'} component={FicheProduit}/> */}
+        <Route exact path={this.props.match.path + '/:id'} component={FicheProduit}/>
+        <Route path={this.props.match.path + '/productName/:productName'} component={SearchProduct}/>
         <Route path={this.props.match.path + '/create'} component={ProduitForm}/>
         <Route path={this.props.match.path + '/edit/:id'} render={(props) => (
               <ProduitForm {...props} categories={this.state.categories} cancelCallback={this.cancel} 
@@ -87,7 +103,7 @@ export default class ProductDisplay extends React.Component{
             )} />
         <Route path={this.props.match.path + '/'} render={(props) => (
               <ProductTable {...props} products={this.state.products} 
-              deleteCallback={this.deleteProduct}/>
+              deleteCallback={this.deleteProduct} searchByName={this.searchByName}/>
             )} />
         <Redirect to={this.props.match.path}/>
        </Switch>
@@ -96,7 +112,31 @@ export default class ProductDisplay extends React.Component{
   }
   
   componentDidMount = ()=>{
-    Promise.all([
+    this.state.Recherche ?
+    fetch(`http://localhost:8080/products/productName/${this.state.productName}`, {
+    method: "GET"
+    })
+    .then((data)=>data.json())
+    .then((res)=>this.setState({
+        products: res
+      })
+      )
+    //   Promise.all([
+    //     fetch(`http://localhost:8080/products/categories`).then(res => res.json())
+    // ]).then(([urlTwoData]) => {
+    //     this.setState({
+    //       categories : urlTwoData
+    //     });
+    //     console.log("BYE!!!!");
+    //     console.log(this.state.categories);
+    //     console.log(this.state.products);
+    // })
+    // .catch((err)=>{
+    //     console.log(err)
+    //     this.setState({networkError: true})
+    //   })
+      :
+      Promise.all([
         fetch("http://localhost:8080/products").then(res => res.json()),
         fetch(`http://localhost:8080/products/categories`).then(res => res.json())
     ]).then(([urlOneData, urlTwoData]) => {
