@@ -1,0 +1,40 @@
+import React from 'react';
+import Button from '@material-ui/core/Button';
+
+import './styles/header.scss'
+import {Link} from "react-router-dom";
+import HeaderIcon from "./HeaderIcon";
+
+export default class HeaderElements extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    //
+    // <Link to="/products">Produits</Link>
+    // <Link to="/categories">Categories</Link>
+
+    render(){
+        return (
+            <div>
+                <HeaderIcon/>
+                <Button variant="text" color="primary" href="/" to="/products">
+                    <Link className="" to="/products">Desktops</Link>
+                </Button>
+                <Button variant="text" color="primary" href="#outlined-buttons">
+                    <Link className="" to="/categories">Mobile</Link>
+                </Button>
+                <Button variant="text" color="primary" href="#outlined-buttons">
+                    <Link className="" to="/categories">Gaming</Link>
+                </Button>
+                <Button variant="text" color="primary" href="#outlined-buttons">
+                    <Link className="" to="/categories">Categories</Link>
+                </Button>
+
+            </div>
+        );
+
+    }
+
+
+    }

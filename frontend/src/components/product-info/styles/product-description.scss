@@ -1,0 +1,23 @@
+.product-detail{
+  .title{
+    border: 1px solid #61dafb;
+    font-size: 1.95rem;
+    font-weight: 500;
+    text-transform: lowercase;
+  }
+  ul{
+    li{
+      border: 1px solid #61dafb;
+      color: #666666;
+      font-size: .75rem;
+      margin-bottom: 10px;
+      strong{
+        font-weight: normal;
+      }
+      &:before{
+        background: #666666;
+      }
+    }
+  }
+}
+

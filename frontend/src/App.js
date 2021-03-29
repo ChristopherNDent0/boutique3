@@ -1,17 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
-import {Link, Route, Switch} from 'react-router-dom';
-import Produits from './Produits';
+import {Link, Route} from 'react-router-dom';
 import Categories from './Categories';
 import ProductDisplay from './ProductDisplay';
+import Header from "./components/header/Header";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-       <Link to="/products">Produits</Link>
-       <Link to="/categories">Categories</Link>
-
+          <Header/>
       </header>
       <main>
       <Route path="/products" component={ProductDisplay}/>

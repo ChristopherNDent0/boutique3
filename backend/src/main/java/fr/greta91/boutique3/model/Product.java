@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "produit")
+@Table(name = "products")
 public class Product implements Serializable {
 
 	/**
@@ -21,20 +21,20 @@ public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_produit")
+	@Column(name = "product_id")
 	private int productId;
-	@Column(name = "nom")
+	@Column(name = "name")
 	private String productName;
-	@Column(name = "stock")
+	@Column(name = "quantity")
 	private int stock;
 	@Column(name = "description")
 	private String description;
-	@Column(name = "url_image")
+	@Column(name = "image_url")
 	private String urlImage;
 	@ManyToOne
-	@JoinColumn(name = "id_categorie")
+	@JoinColumn(name = "category_id")
 	private Category category;
-	@Column(name = "prix_actuel")
+	@Column(name = "price")
 	private Double price;
 
 	public Product() {

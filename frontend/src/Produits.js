@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, Route, Switch } from 'react-router-dom';
 import ProduitList from './ProduitList';
-import FicheProduit from './FicheProduit';
+import ProductInfo from './components/product-info/ProductInfo';
 import ProduitForm from './ProduitForm';
 import ProductDisplay from './ProductDisplay';
 import ProductForm from './ProductForm';
@@ -22,7 +22,7 @@ export default class Produits extends React.Component {
                 <Switch>
                     {/* <Route path={this.props.match.path + '/create'} component={ProduitForm}/>
                     <Route path={this.props.match.path + '/edit/:id'} component={ProduitForm} />
-                    <Route path={this.props.match.path + '/:id'} component={FicheProduit} />
+                    <Route path={this.props.match.path + '/:id'} component={product-info} />
                     <Route exact path={this.props.match.path + '/'} component={ProductDisplay} /> */}
                 </Switch>
 

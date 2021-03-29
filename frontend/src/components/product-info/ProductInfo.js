@@ -1,7 +1,11 @@
 import React from 'react';
-import { Link, Route } from 'react-router-dom';
+import ProductName from "./ProductName";
+import ProductDescription from "./ProductDescription";
+import ProductId from "./ProductId";
 
-export default class FicheProduit extends React.Component {
+import './styles/product-info.scss'
+
+export default class ProductInfo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -24,17 +28,26 @@ export default class FicheProduit extends React.Component {
         const messageConst = !!this.state.message;
         return (
             <React.Fragment>
-                <div style={messageConst ? { display: 'none' } : {}}>
-                    <ul>    
-                        <li>id : {this.state.product.productId}</li>
-                        <li>Nom : {this.state.product.productName}</li>
-                        <li>Stock : {this.state.product.stock}</li>
-                        <li>Description : {this.state.product.description}</li>
-                        <li>urlImage : {this.state.product.urlImage}</li>
-                        <li>Categorie Id : {this.state.product.category.categoryId}</li>
-                        <li>Categorie : {this.state.product.category.categoryName}</li>
-                        <li>Prix : {this.state.product.price}</li>
-                    </ul>
+                <div className="flex-grid">
+                    <div className="col">
+                        <ProductName name={this.state.product.productName}/>
+                    </div>
+                    <div className="col" >
+                        {/*<ProductId name={this.state.product.productId}/>*/}
+                        <div className="p-description">
+                            <ProductDescription name={this.state.product.description}/>
+                        </div>
+                    </div>
+                    <br/>
+                    {/*<div className="p-description">*/}
+                    {/*    <table>*/}
+                    {/*        <td>Stock : {this.state.product.stock}</td>*/}
+                    {/*        <td>urlImage : {this.state.product.urlImage}</td>*/}
+                    {/*        <td>Categorie Id : {this.state.product.category.categoryId}</td>*/}
+                    {/*        <td>Categorie : {this.state.product.category.categoryName}</td>*/}
+                    {/*        <td>Prix : {this.state.product.price}</td>*/}
+                    {/*    </table>*/}
+                    {/*</div>*/}
                 </div>
                 <div id="message_produit">
                     {this.state.message}

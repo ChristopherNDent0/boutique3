@@ -3,7 +3,7 @@ import React from 'react';
 import ProductTable from './ProductTable';
 import { Link, Redirect, Route, Switch } from 'react-router-dom';
 import ProduitForm from './ProduitForm';
-import FicheProduit from './FicheProduit';
+import ProductInfo from './components/product-info/ProductInfo';
 import SearchProduct from './SearchProduct';
 
 export default class ProductDisplay extends React.Component{
@@ -94,7 +94,7 @@ export default class ProductDisplay extends React.Component{
       // return this.state.startEditing ? // pas besoin de start editing
       return(
       <Switch>
-        <Route exact path={this.props.match.path + '/:id'} component={FicheProduit}/>
+        <Route exact path={this.props.match.path + '/:id'} component={ProductInfo}/>
         <Route path={this.props.match.path + '/productName/:productName'} component={SearchProduct}/>
         <Route path={this.props.match.path + '/create'} component={ProduitForm}/>
         <Route path={this.props.match.path + '/edit/:id'} render={(props) => (
