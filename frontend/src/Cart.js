@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link, Route } from 'react-router-dom';
 
-export default class ProductTable extends React.Component{
+export default class Cart extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      rechercheValue: ""
+      rechercheValue: "",
     }
     this.handleChange = this.handleChange.bind(this);    
     this.handleChangeCategory = this.handleChangeCategory.bind(this);  
@@ -44,7 +44,7 @@ export default class ProductTable extends React.Component{
             <th>Image</th>
             <th>Action</th>
           </tr>
-          {this.props.products.map((product)=>{
+          {this.state.cart.map((product)=>{
             return(
               <tr key={product.productId.toString()}>
                 <td>{product.productName}</td>
@@ -53,7 +53,6 @@ export default class ProductTable extends React.Component{
                 {/* <td><img src={`/images/${product.name}.jpg`} width="50" height="50"/></td> */}
                 <td><img src={product.urlImage} width="250" height="150"/></td>
                 <td>
-                {/* <button onClick={()=>this.props.addToCart(product.id)}>Add to cart</button> */}
                 <Link to={this.props.match.url + `/edit/${product.productId}`}>Modifier</Link>
                 <Link to={this.props.match.url + `/${product.productId}`}>Afficher</Link>
                   {/* <button onClick={()=>this.props.deleteCallback(product.id)}>Supprimer</button> */}

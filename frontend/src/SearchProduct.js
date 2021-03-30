@@ -22,7 +22,6 @@ export default class SearchProduct extends React.Component{
             <form>
             Recherche par nom <input name="searchByName" type="text" placeholder="Tapez votre recherche" value={this.state.rechercheValue} onChange={this.handleChange}/>
             <Link to= {`/products/productName/${this.state.rechercheValue}`}>Recherche</Link>
-            {window.location.reload()}
             {/* <button onClick={()=>this.props.searchByNameCallback(this.state.rechercheValue)}>Recherche</button> */}
             </form>
             <table>
@@ -71,4 +70,23 @@ export default class SearchProduct extends React.Component{
               )
               console.log(this.state.products)
             }
+
+            // Promise.all([
+            //     fetch(`http://localhost:8080/products/productName/${this.props.match.params.productName}`).then(res => res.json()),
+            //     fetch(`http://localhost:8080/products/categories`).then(res => res.json())
+            // ]).then(([urlOneData, urlTwoData]) => {
+            //     this.setState({
+            //       products: urlOneData,
+            //       categories : urlTwoData
+        
+            //       // categories : urlTwoData.map((c)=> this.state.categories.concat(c))
+            //     });
+            //     console.log("BYE!!!!");
+            //     console.log(this.state.categories);
+            //     console.log(this.state.products);
+            // })
+            // .catch((err)=>{
+            //     console.log(err)
+            //     this.setState({networkError: true})
+            //   })
 }
