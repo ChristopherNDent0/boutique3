@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,8 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "produit")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Product implements Serializable {
 
 	/**
@@ -31,8 +35,9 @@ public class Product implements Serializable {
 	private String description;
 	@Column(name = "url_image")
 	private String urlImage;
-	@ManyToOne
-	@JoinColumn(name = "id_categorie")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_categorie", referencedColumnName ="id_categorie")
+	@JsonIgnoreProperties(value = {"Category", "hibernateLazyInitializer"})
 	private Category category;
 	@Column(name = "prix_actuel")
 	private Double price;
