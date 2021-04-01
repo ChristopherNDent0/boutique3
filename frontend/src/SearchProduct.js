@@ -6,24 +6,58 @@ export default class SearchProduct extends React.Component{
         super(props);
         this.state = {
             rechercheValue : "",
-            products : []
+            products : [],
+            //prevProps : "",
+            Recherche : false
         }
         this.handleChange = this.handleChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.keyPress = this.keyPress.bind(this);
+       
     }
 
     handleChange(event) {
         this.setState((state)=>state.rechercheValue = event.target.value)
       }
+      handleClick(event) {
+        //window.location.href=("/products/productName/" + this.state.rechercheValue)
+        
+        fetch(`http://localhost:8080/products/productName/${this.state.rechercheValue}`, {
+            method: "GET"
+            })
+            .then((data)=>data.json())
+            .then((res)=> {this.setState({
 
+                products: res
+                
+              })
+            this.props.history.push ("/products/productName/" + this.state.rechercheValue)}
+              )
+            }
+        
+      
+    
+      keyPress(event) {
+        if(event.keyCode == 13){
+          event.preventDefault();
+          this.handleClick();
+        }
+      }
+    
     render(){
         
         return(
           <React.Fragment>
             <form>
-            Recherche par nom <input name="searchByName" type="text" placeholder="Tapez votre recherche" value={this.state.rechercheValue} onChange={this.handleChange}/>
-            <Link to= {`/products/productName/${this.state.rechercheValue}`}>Recherche</Link>
-            {window.location.reload()}
-            {/* <button onClick={()=>this.props.searchByNameCallback(this.state.rechercheValue)}>Recherche</button> */}
+            {/* Recherche par nom <input name="searchByName" type="text" placeholder="Tapez votre recherche" value={this.state.rechercheValue} 
+                                onChange={this.handleChange}/>
+            {<Link to= {`/products/productName/${this.state.rechercheValue}` }>Recherche</Link>} */}
+
+        Recherche par nom <input name="searchByName" type="text" placeholder="Tapez votre recherche" 
+        value={this.state.rechercheValue} onChange={this.handleChange} onKeyDown={this.keyPress}/>
+        <button type="button" onClick={this.handleClick}>Recherche</button>
+            {/*<Link onClick={window.location.href=("/products/productName/" + this.state.rechercheValue)}>Recherche</Link>*/}
+            {/*<button onClick={()=>this.props.searchByNameCallback(this.state.rechercheValue)}>Recherche</button>*/}
             </form>
             <table>
               <caption>Produits</caption>
@@ -56,11 +90,12 @@ export default class SearchProduct extends React.Component{
           
         );
       }
-
+    
       componentDidMount = () => {
         //searchByName = (productName)=>{
             // this.state.Recherche = true;
             // this.state.searchName = productName
+            //window.location.href=("/products/productName/" + this.state.rechercheValue);
             fetch(`http://localhost:8080/products/productName/${this.props.match.params.productName}`, {
             method: "GET"
             })
@@ -70,5 +105,6 @@ export default class SearchProduct extends React.Component{
               })
               )
               console.log(this.state.products)
-            }
+            
+        }
 }

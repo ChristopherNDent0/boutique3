@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, Route } from 'react-router-dom';
 
-export default class FicheProduit extends React.Component {
+export default class ShowProduct extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -35,7 +35,9 @@ export default class FicheProduit extends React.Component {
                         <li>Categorie : {this.state.product.category.categoryName}</li>
                         <li>Prix : {this.state.product.price}</li>
                     </ul>
+                    <button onClick={this.props.cancelCallback}>Annuler</button>
                 </div>
+
                 <div id="message_produit">
                     {this.state.message}
                 </div>

@@ -1,7 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
 import {Link, Route, Switch} from 'react-router-dom';
-import Produits from './Produits';
 import Categories from './Categories';
 import ProductDisplay from './ProductDisplay';
 

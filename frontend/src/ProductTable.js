@@ -8,19 +8,32 @@ export default class ProductTable extends React.Component{
       rechercheValue: ""
     }
     this.handleChange = this.handleChange.bind(this);    
+    this.handleChangeCategory = this.handleChangeCategory.bind(this);  
   }
 
   handleChange(event) {
     this.setState((state)=>state.rechercheValue = event.target.value)
   }
 
+  handleChangeCategory(event){
+    this.setState((state)=>state.product.category[`categoryId`] = event.target.value)
+  }
+
   render(){
     return(
       <React.Fragment>
         <form>
-        Recherche par nom <input name="searchByName" type="text" placeholder="Tapez votre recherche" value={this.state.rechercheValue} onChange={this.handleChange}/>
-        <Link to= {this.props.match.url + `/productName/${this.state.rechercheValue}`}>Recherche</Link>
-        {/* <button onClick={()=>this.props.searchByNameCallback(this.state.rechercheValue)}>Recherche</button> */}
+          Recherche par nom <input name="searchByName" type="text" placeholder="Tapez votre recherche" value={this.state.rechercheValue} onChange={this.handleChange}/>          
+          {/* <button onClick={()=>this.props.searchByNameCallback(this.state.rechercheValue)}>Recherche</button> */}
+          <br/>
+          <label htmlFor="category">Categorie</label>
+            <select name="category" id="category" onChange={this.handleChangeCategory}>
+            {/* <select name="category" id="category"> */}
+              {/* {console.log("category" + this.props.categories)} */}
+              {this.props.categories.map((c)=> {return(<option key={c.categoryId} name={c.categoryId}>{c.categoryName}</option>);})}
+            </select>
+            <br/>
+            <Link to= {this.props.match.url + `/productName/${this.state.rechercheValue}`}>Recherche</Link>
         </form>
         <table>
           <caption>Produits</caption>
@@ -40,6 +53,7 @@ export default class ProductTable extends React.Component{
                 {/* <td><img src={`/images/${product.name}.jpg`} width="50" height="50"/></td> */}
                 <td><img src={product.urlImage} width="250" height="150"/></td>
                 <td>
+                {/* <button onClick={()=>this.props.addToCart(product.id)}>Add to cart</button> */}
                 <Link to={this.props.match.url + `/edit/${product.productId}`}>Modifier</Link>
                 <Link to={this.props.match.url + `/${product.productId}`}>Afficher</Link>
                   {/* <button onClick={()=>this.props.deleteCallback(product.id)}>Supprimer</button> */}
