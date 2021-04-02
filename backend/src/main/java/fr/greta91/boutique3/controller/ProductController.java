@@ -1,10 +1,9 @@
 package fr.greta91.boutique3.controller;
 
-import java.util.List;
-
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,110 +21,94 @@ import fr.greta91.boutique3.model.Product;
 import fr.greta91.boutique3.repos.CategoryRepository;
 import fr.greta91.boutique3.repos.ProductRepository;
 
-//@CrossOrigin(maxAge = 3600, origins = "http://localhost:3000")
-//@CrossOrigin(origins = "*", allowedHeaders = "*")
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+
+
 @CrossOrigin(maxAge = 3600, origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api")
 public class ProductController {
-
 	@Autowired
 	ProductRepository productRepo;
-
+	
 	@Autowired
 	CategoryRepository categoryRepo;
-
-	@GetMapping("")
-	//@RequestMapping(method= RequestMethod.GET)
-	public List<Product> getProducts() {
-		List<Product> list = productRepo.findAll();
-
-		return list;
-	}
-
-	@GetMapping("/categories")
-	public List<Category> getCategories() {
-		List<Category> list = categoryRepo.findAll();
-
-		return list;
-	}
 	
-	@GetMapping("/productName/{productName}")
-	//@RequestMapping(value = "/productName/{productName}", method = RequestMethod.GET)
-	public List<Product> getProductsByName(@PathVariable String productName) {
-		List<Product> list = productRepo.findByProductName(productName);
-		return list;
-	}
-
-	
-	//@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	//public ResponseEntity<Product> getProduct(@RequestParam Integer id) {
-	@GetMapping("/{id}")
-	//public ResponseEntity<Product> getProduct(@RequestParam(value="id") int id){
-	public ResponseEntity<Product> getProduct(@PathVariable int id) {
-		Optional<Product> optional = productRepo.findById(id);
-		if (optional.isPresent()) {
-			return ResponseEntity.ok(optional.get());
-		} else {
-			return ResponseEntity.notFound().build();
+	@GetMapping("/public/produits")
+	public List<Product> getProduits(@RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber, 
+											@RequestParam(value = "perPage", required = false, defaultValue = "10") int perPage, 
+											@RequestParam(value = "searchWord", required = false, defaultValue = "") String searchWord
+											){
+		Pageable page = PageRequest.of(pageNumber, perPage);
+		List<Product> list = null;
+		if (searchWord.length() > 0) {
+			list = productRepo.findAllByProductNameContainingIgnoreCase(searchWord, page);
 		}
-
+		else {
+			Page<Product> pageProduit = productRepo.findAll(page);
+			list = pageProduit.getContent();
+		}
+//		List<String> list = new ArrayList<String>();
+//		list.add("Produit 1");
+//		list.add("Produit 2");
+//		list.add("Produit 3");
+//		list.add("Produit 4");
+		return list;
 	}
-
-	@PostMapping("/create")
+	
+	@PostMapping("/employe/produits/create")
 	public ResponseEntity<Product> createProduct(@RequestBody Product product) {
 		try {
+			Product newProduct = productRepo.save(product);
+			return ResponseEntity.ok(newProduct);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().build();
+		}
+	}
+	
+	@GetMapping("/public/count")
+	public HashMap<String, Integer> getProduitsCount(@RequestParam(value = "searchWord", required = false, defaultValue = "") String searchWord
+			) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		if (searchWord.length() > 0) {
+			map.put("produitsCount", productRepo.getProduitsCountByProductName(searchWord));
+		} else {
+			map.put("produitsCount", productRepo.getProduitsCount());
+		}
+		
+		return map;
+	}
 
-			/*
-			 * HttpHeaders responseHeaders = new HttpHeaders();
-			 * responseHeaders.add("Access-Control-Allow-Origin", "http://localhost:8080");
-			 * responseHeaders.add("Content-type", "application/json");
-			 * responseHeaders.add("Accept", "application/json");
-			 * responseHeaders.add("Authorization", "*");
-			 * 
-			 * Product res = productRepo.save(product); return
-			 * ResponseEntity.ok().headers(responseHeaders).body(res);
-			 */
-			Product res = productRepo.save(product);
-			return ResponseEntity.ok(res);
-		} catch (Exception ex) {
+	@GetMapping("/public/produits/{id}")
+	public ResponseEntity<Product> getProduit(@PathVariable int id) {
+		Optional<Product> optional = productRepo.findById(id);
+		if(optional.isPresent()) {
+			return ResponseEntity.ok(optional.get());
+		}
+		else {
 			return ResponseEntity.notFound().build();
 		}
 	}
-
-	@DeleteMapping("/{id}") // A revoir url
-	public ResponseEntity<Product> deleteProduct(@PathVariable int id) {
+	
+	@PutMapping("/edit")
+	public ResponseEntity<Product> editProduct(@RequestBody Product product) {
 		try {
-			Product product = productRepo.findById(id).get();
-			if (null != product) {
-				productRepo.delete(product);
-				return ResponseEntity.ok(product);
-			} else {
-				return ResponseEntity.notFound().build();
-			}
-		} catch (Exception ex) {
-			System.out.println("In ProductController.deleteProduct(), exception : " + ex); // not sure if needed
-			return ResponseEntity.notFound().build();
+			Product newProduct = productRepo.save(product);
+			return ResponseEntity.ok(newProduct);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().build();
 		}
 	}
-
-	@PutMapping("/edit/{id}") // A revoir url
-	public ResponseEntity<Product> modifyProduct(@PathVariable int id, @RequestBody Product product) {
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> DeleteProduct(@PathVariable("id") int productId) {
 		try {
-//			HttpHeaders responseHeaders = new HttpHeaders();
-//			responseHeaders.add("Access-Control-Allow-Origin", "http://localhost:8080");
-//			responseHeaders.add("Content-type", "application/json");
-//			responseHeaders.add("Accept", "application/json");
-//			responseHeaders.add("Authorization", "*");
-//		    responseHeaders.set("Content-type: application/json", "Access-Control-Allow-Origin: http://localhost:8080");
-			
-//			Product res = productRepo.save(product);
-//			return ResponseEntity.ok().headers(responseHeaders).body(res);
-			Product res = productRepo.save(product);
-			return ResponseEntity.ok(res);
-		} catch (Exception ex) {
-			return ResponseEntity.notFound().build();
+			productRepo.deleteById(productId);
+			return ResponseEntity.ok("OK");
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().build();
 		}
 	}
-
 }

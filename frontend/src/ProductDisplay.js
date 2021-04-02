@@ -10,7 +10,11 @@ export default class ProductDisplay extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      // cart: Map,
+    // cart : {
+    //     lignesPaniers : []
+    // },
+    //this.state.cart.lignesPanier.push({id: 1, qte: 2})
+      
       searchName : "",
       categories : [],
       Recherche : false,
@@ -23,18 +27,18 @@ export default class ProductDisplay extends React.Component{
     }
   }
 
-  // searchByName = (productName)=>{
-  //   this.state.Recherche = true;
-  //   this.state.searchName = productName
-  //   fetch(`http://localhost:8080/products/productName/${productName}`, {
-  //   method: "GET"
-  //   })
-  //   .then((data)=>data.json())
-  //   .then((res)=>this.setState({
-  //       products: res
-  //     })
-  //     )
-  //   }
+  searchByName = (productName)=>{
+    this.state.Recherche = true;
+    this.state.searchName = productName
+    fetch(`http://localhost:8080/products/productName/${productName}`, {
+    method: "GET"
+    })
+    .then((data)=>data.json())
+    .then((res)=>this.setState({
+        products: res
+      })
+      )
+    }
 
   // addToCart = (productId)=>{
   //   this.state.cart.get(productId) ?
