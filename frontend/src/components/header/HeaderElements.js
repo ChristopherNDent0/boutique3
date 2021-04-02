@@ -6,20 +6,13 @@ import {Link} from "react-router-dom";
 import HeaderIcon from "./HeaderIcon";
 
 export default class HeaderElements extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    //
-    // <Link to="/products">Produits</Link>
-    // <Link to="/categories">Categories</Link>
 
     render(){
         return (
             <div>
                 <HeaderIcon/>
                 <Button variant="text" color="primary" href="/" to="/products">
-                    <Link className="" to="/products">Desktops</Link>
+                    <Link className="" to="/products">Desktop</Link>
                 </Button>
                 <Button variant="text" color="primary" href="#outlined-buttons">
                     <Link className="" to="/categories">Mobile</Link>
@@ -28,7 +21,7 @@ export default class HeaderElements extends React.Component {
                     <Link className="" to="/categories">Gaming</Link>
                 </Button>
                 <Button variant="text" color="primary" href="#outlined-buttons">
-                    <Link className="" to="/categories">Categories</Link>
+                    <Link className="" to="/categories">Accessories</Link>
                 </Button>
 
             </div>

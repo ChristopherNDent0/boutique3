@@ -7,7 +7,7 @@ export default class HeaderIcon extends React.Component{
 
     render() {
         return(
-            <img className="company-logo" src={Cord}  alt="image broke" onClick={event => {
+            <img className="company-logo" src={Cord}  width="50" height="50" alt="broke" onClick={event => {
                 <Link to="/products">Produits</Link>
             }}/>
         )
