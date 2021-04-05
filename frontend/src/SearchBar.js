@@ -5,7 +5,7 @@ export default class SearchBar extends React.Component {
         super(props);
         this.state = {
             searchWord: "",
-            categoryId: null,
+            categoryId: 0,
             categories : []
         }
       this.handleChange = this.handleChange.bind(this);  
@@ -14,8 +14,11 @@ export default class SearchBar extends React.Component {
     handleChange = (event) =>{
       if (event.target.name === "category") {
         this.setState((state)=>
-          state.categoryId = event.target.value) 
-        this.props.searchByCategoryCallback(this.state.categoryId);     
+          state.categoryId = event.target.value)
+          console.log("CATEGORY ID");
+          console.log(this.state.categoryId); 
+        // this.props.searchByCategoryCallback(this.state.categoryId);
+        this.props.searchByCategoryCallback(event.target.value);   // il y a une latence entre le set state et qd la variable a été updater c'est pour cela qu'on utilise event.target.value comme cela c'est immédiat   
       }
       else{
           this.setState((state)=>state[event.target.name] = event.target.value)

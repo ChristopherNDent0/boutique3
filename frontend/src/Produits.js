@@ -16,7 +16,7 @@ export default class Produits extends React.Component {
             perPage: 10,
             pageCount: 1,
             searchWord: "",
-            categoryId: "",
+            categoryId: 0,
 
         }
     }
@@ -29,7 +29,7 @@ export default class Produits extends React.Component {
       this.setState({perPage: perPage});
       this.getProduits(this.state.currentPage, perPage, this.state.searchWord);
     }
-    getProduits = (pageNumber=this.state.currentPage, perPage=this.state.perPage, searchWord="")=>{
+    getProduits = (pageNumber=this.state.currentPage, perPage=this.state.perPage, searchWord="", categoryId=0)=>{
       // fetch(`http://localhost:8080/produits?pageNumber=${pageNumber}&perPage=${perPage}&searchWord=${searchWord}`, {
       //       method: "GET"
       //     })
@@ -44,15 +44,40 @@ export default class Produits extends React.Component {
       //         }
       //         )
       //     })
-      ProduitService.getProduits(pageNumber, perPage, searchWord).then((response)=>{
+      ProduitService.getProduits(pageNumber, perPage, searchWord, categoryId).then((response)=>{
         console.log(response.data);
         this.setState({produits: response.data})
       }, (error)=>{
         console.log(error);
       })
     }
-    getProduitsCount = (searchWord="")=>{
-      fetch(`http://localhost:8080/api/public/count?searchWord=${searchWord}`, {
+    // getProduitsByCategory = (pageNumber=this.state.currentPage, perPage=this.state.perPage, categoryId=null)=>{
+    //   ProduitService.getProduits(pageNumber, perPage, categoryId).then((response)=>{
+    //     console.log(response.data);
+    //     this.setState({produits: response.data})
+    //   }, (error)=>{
+    //     console.log(error);
+    //   })
+    // }
+    // getProduitsCountByCategory = (categoryId=null)=>{
+    //   fetch(`http://localhost:8080/api/public/count?categoryId=${categoryId}`, {
+    //         method: "GET"
+    //       })
+    //       .then((data)=>{
+    //           console.log(data);
+    //           return data.json()
+    //         })
+    //       .then((res)=> {
+    //         console.log(res);
+    //         this.setState({
+    //           produitsCount: res.produitsCount,
+    //           pageCount: Math.ceil(res.produitsCount / this.state.perPage)
+    //           }
+    //         )
+    //       })
+    // }
+    getProduitsCount = (searchWord="", categoryId=0)=>{
+      fetch(`http://localhost:8080/api/public/count?searchWord=${searchWord}&categoryId=${categoryId}`, {
             method: "GET"
           })
           .then((data)=>{
@@ -116,39 +141,39 @@ export default class Produits extends React.Component {
         }
       }
       delete = (produitId)=>{//productId = 2 => products=[1,3]
-        ProduitService.deleteProduit(produitId).then((response)=>{
-          console.log(response.data);
-          this.props.history.push(`/produits?currentPage=${this.state.pageCount-1}`)
-          this.setCurrentPage(this.state.pageCount-1)
-        }, (error)=>{
-          console.log(error);
-          if (error.response) {
-            if (error.response.status === 403) {
-              alert("Accès refusé : Connectez-vous en tant qu'Employé pour supprimer un produit")
-              this.props.history.push(`/login`)
-            }
-          }
+        // ProduitService.deleteProduit(produitId).then((response)=>{
+        //   console.log(response.data);
+        //   this.props.history.push(`/produits?currentPage=${this.state.pageCount-1}`)
+        //   this.setCurrentPage(this.state.pageCount-1)
+        // }, (error)=>{
+        //   console.log(error);
+        //   if (error.response) {
+        //     if (error.response.status === 403) {
+        //       alert("Accès refusé : Connectez-vous en tant qu'Employé pour supprimer un produit")
+        //       this.props.history.push(`/login`)
+        //     }
+        //   }
+        // })
+        fetch(`http://localhost:8080/api/employe/produits/delete/${produitId}`, {
+          method: "DELETE"
         })
-        // fetch(`http://localhost:8080/api/employe/produits/delete/${produitId}`, {
-        //   method: "DELETE"
-        // })
-        // .then((data)=>{
-        //     console.log(data);
-        //     if (data.status === 200) {
-        //         this.setState(
-        //             {produits : 
-        //               this.state.produits.filter((produit)=> produit.id !== produitId)})
-        //         this.getProduitsCount();
-        //     }
-        //     else{
-        //         alert("Opération échouée!")
-        //     }
+        .then((data)=>{
+            console.log(data);
+            if (data.status === 200) {
+                this.setState(
+                    {produits : 
+                      this.state.produits.filter((produit)=> produit.id !== produitId)})
+                this.getProduitsCount();
+            }
+            else{
+                alert("Opération échouée!")
+            }
             
-        // })
+        })
       }
 
     searchByCategory = (categoryId)=>{
-      this.getProduits(0, this.state.perPage, categoryId);
+      this.getProduits(0, this.state.perPage, "", categoryId);
       this.getProduitsCount(categoryId);
       this.setState({categoryId: categoryId, currentPage: 0});
       this.props.history.push(`/produits?currentPage=${this.state.currentPage}&categoryId=${categoryId}`);    

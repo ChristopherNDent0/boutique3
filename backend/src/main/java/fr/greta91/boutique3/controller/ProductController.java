@@ -85,15 +85,19 @@ public class ProductController {
 	}
 	
 	@GetMapping("/public/count")
-	public HashMap<String, Integer> getProduitsCount(@RequestParam(value = "searchWord", required = false, defaultValue = "") String searchWord
+	public HashMap<String, Integer> getProduitsCount(@RequestParam(value = "searchWord", required = false, defaultValue = "") String searchWord,
+													 @RequestParam(value = "categoryId", required = false, defaultValue = "0") int categoryId
 			) {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		if (searchWord.length() > 0) {
 			map.put("produitsCount", productRepo.getProduitsCountByProductName(searchWord));
-		} else {
+		} 
+		else if (categoryId > 0) {
+			map.put("produitsCount", productRepo.getProduitsCountByCategoryId(categoryId));
+		}
+		else {
 			map.put("produitsCount", productRepo.getProduitsCount());
 		}
-		
 		return map;
 	}
 
@@ -118,8 +122,8 @@ public class ProductController {
 		}
 	}
 	
-	@DeleteMapping("/employe/produits/delete")
-	public ResponseEntity<String> DeleteProduct(@PathVariable("id") int productId) {
+	@DeleteMapping("/employe/produits/delete/{produitId}")
+	public ResponseEntity<String> DeleteProduct(@PathVariable("produitId") int productId) {
 		try {
 			productRepo.deleteById(productId);
 			return ResponseEntity.ok("OK");

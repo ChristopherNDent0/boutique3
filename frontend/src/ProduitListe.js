@@ -76,7 +76,6 @@ export default class ProduitListe extends React.Component {
         search = search.split("&");
         let currPage = 0;
         let searchWord = "";
-        let categoryId = null;
         for (let index = 0; index < search.length; index++) {
             let temp = search[index].split("=");
             if (index === 0) {
@@ -89,10 +88,6 @@ export default class ProduitListe extends React.Component {
                     searchWord = temp[0].indexOf("searchWord") >= 0 ? temp[1] : "";
                 }
             }
-        }
-        if (categoryId !== 0) {
-            this.props.searchByCategory(categoryId);
-            this.props.history.push(this.props.match.url + "?currentPage="+currPage + "&categoryId="+ categoryId);
         }
         if (searchWord !== "") {
             this.props.search(searchWord);
