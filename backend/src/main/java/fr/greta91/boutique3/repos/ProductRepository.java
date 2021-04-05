@@ -21,4 +21,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 	@Query("SELECT COUNT(p.productId) from Product p where p.productName LIKE %?1%")
 	int getProduitsCountByProductName(String searchWord);
+	
+	@Query("SELECT p from Product p where p.category.categoryId = ?1")
+	List<Product> findAllByCategoryId(int categoryId, Pageable page);
+	
+	List<Product> findByPriceLessThanEqual(double price,Pageable page);
 }

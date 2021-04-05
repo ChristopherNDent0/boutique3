@@ -15,7 +15,8 @@ export default class Produits extends React.Component {
             currentPage : 0,
             perPage: 10,
             pageCount: 1,
-            searchWord: ""
+            searchWord: "",
+            categoryId: "",
 
         }
     }
@@ -115,24 +116,43 @@ export default class Produits extends React.Component {
         }
       }
       delete = (produitId)=>{//productId = 2 => products=[1,3]
-        fetch(`http://localhost:8080/produits/${produitId}`, {
-          method: "DELETE"
+        ProduitService.deleteProduit(produitId).then((response)=>{
+          console.log(response.data);
+          this.props.history.push(`/produits?currentPage=${this.state.pageCount-1}`)
+          this.setCurrentPage(this.state.pageCount-1)
+        }, (error)=>{
+          console.log(error);
+          if (error.response) {
+            if (error.response.status === 403) {
+              alert("Accès refusé : Connectez-vous en tant qu'Employé pour supprimer un produit")
+              this.props.history.push(`/login`)
+            }
+          }
         })
-        .then((data)=>{
-            console.log(data);
-            if (data.status === 200) {
-                this.setState(
-                    {produits : 
-                      this.state.produits.filter((produit)=> produit.id !== produitId)})
-                this.getProduitsCount();
-            }
-            else{
-                alert("Opération échouée!")
-            }
+        // fetch(`http://localhost:8080/api/employe/produits/delete/${produitId}`, {
+        //   method: "DELETE"
+        // })
+        // .then((data)=>{
+        //     console.log(data);
+        //     if (data.status === 200) {
+        //         this.setState(
+        //             {produits : 
+        //               this.state.produits.filter((produit)=> produit.id !== produitId)})
+        //         this.getProduitsCount();
+        //     }
+        //     else{
+        //         alert("Opération échouée!")
+        //     }
             
-        })
+        // })
       }
 
+    searchByCategory = (categoryId)=>{
+      this.getProduits(0, this.state.perPage, categoryId);
+      this.getProduitsCount(categoryId);
+      this.setState({categoryId: categoryId, currentPage: 0});
+      this.props.history.push(`/produits?currentPage=${this.state.currentPage}&categoryId=${categoryId}`);    
+    }     
     search = (searchWord)=>{
       this.getProduits(0, this.state.perPage, searchWord);
       this.getProduitsCount(searchWord);
@@ -145,6 +165,7 @@ export default class Produits extends React.Component {
       this.getProduits();
       this.getProduitsCount();
     }
+
     render() {
         console.log(this.props.match);
         const isEmploye = this.props.currentUser && this.props.currentUser.roles && this.props.currentUser.roles.includes("ROLE_EMPLOYE");
@@ -152,7 +173,7 @@ export default class Produits extends React.Component {
             <React.Fragment>
                 <div className="App-header">
                     {(isEmploye && <Link to={this.props.match.url + '/create'}>Créer un produit</Link>)}
-                    <SearchBar searchCallback={this.search} annulerSearch={this.clearSearchWord}/>
+                    <SearchBar searchCallback={this.search} searchByCategoryCallback={this.searchByCategory} annulerSearch={this.clearSearchWord}/>
                 </div>
                 <Switch>
                     <Route path={this.props.match.path + '/create'} render={
@@ -174,7 +195,8 @@ export default class Produits extends React.Component {
                                         perPage={this.state.perPage} 
                                         pageCount={this.state.pageCount} 
                                         setCurrentPage={this.setCurrentPage} 
-                                        deleteCallback={this.delete}  />
+                                        deleteCallback={this.delete}  
+                                        searchByCategory={this.searchByCategory}/>
                     } />
                 </Switch>
                 

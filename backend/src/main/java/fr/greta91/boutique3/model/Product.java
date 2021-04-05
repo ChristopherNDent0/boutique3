@@ -73,4 +73,11 @@ public class Product {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+	@Override
+	public String toString() {
+		return "Product [productId=" + productId + ", productName=" + productName + ", stock=" + stock
+				+ ", description=" + description + ", urlImage=" + urlImage + ", category=" + category + ", price="
+				+ price + "]";
+	}
+	
 }

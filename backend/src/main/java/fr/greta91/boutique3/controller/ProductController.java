@@ -36,25 +36,41 @@ public class ProductController {
 	@Autowired
 	CategoryRepository categoryRepo;
 	
+//	@GetMapping("/public/produits/prix")
+//	public List<Product> getCat(@RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber, 
+//			@RequestParam(value = "perPage", required = false, defaultValue = "10") int perPage, 
+//			@RequestParam(value = "price", required = false, defaultValue = "") double price){
+//		Pageable page = PageRequest.of(pageNumber, perPage);
+//		List<Product> list = null;
+//		if (price > 0) {
+//			list = productRepo.findByPriceLessThanEqual(price, page);
+//		}
+//		return list;
+//	}
+	
+	
 	@GetMapping("/public/produits")
 	public List<Product> getProduits(@RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber, 
 											@RequestParam(value = "perPage", required = false, defaultValue = "10") int perPage, 
-											@RequestParam(value = "searchWord", required = false, defaultValue = "") String searchWord
+											@RequestParam(value = "searchWord", required = false, defaultValue = "") String searchWord,
+											@RequestParam(value = "categoryId", required = false, defaultValue = "0") int categoryId,
+											@RequestParam(value = "price", required = false, defaultValue = "0") double price
 											){
 		Pageable page = PageRequest.of(pageNumber, perPage);
 		List<Product> list = null;
 		if (searchWord.length() > 0) {
 			list = productRepo.findAllByProductNameContainingIgnoreCase(searchWord, page);
 		}
+		else if (categoryId > 0) {
+			list = productRepo.findAllByCategoryId(categoryId, page);
+		}
+		else if (price > 0) {
+			list = productRepo.findByPriceLessThanEqual(price, page);
+		}
 		else {
 			Page<Product> pageProduit = productRepo.findAll(page);
 			list = pageProduit.getContent();
 		}
-//		List<String> list = new ArrayList<String>();
-//		list.add("Produit 1");
-//		list.add("Produit 2");
-//		list.add("Produit 3");
-//		list.add("Produit 4");
 		return list;
 	}
 	
@@ -102,7 +118,7 @@ public class ProductController {
 		}
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/employe/produits/delete")
 	public ResponseEntity<String> DeleteProduct(@PathVariable("id") int productId) {
 		try {
 			productRepo.deleteById(productId);

@@ -13,6 +13,12 @@ class ProduitService {
                 produit, { headers: authHeader() });
   }
 
+  deleteProduit(produitId) {
+    return axios.delete(API_URL + 'employe/produits/delete', {
+      params: { foo : produitId }
+     })
+  }
+
   getAdminBoard() {
     return axios.get(API_URL + 'gerant', { headers: authHeader() });
   }

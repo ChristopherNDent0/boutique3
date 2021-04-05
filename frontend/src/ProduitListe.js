@@ -56,7 +56,7 @@ export default class ProduitListe extends React.Component {
                                 <td>{p.price}&euro;</td>
                                 <td><img src={p.urlImage} width="250" height="150"/></td>
                                 <td>
-                                    <Link to={this.props.match.url + '/'+p.id}>Afficher</Link>
+                                    <Link to={this.props.match.url + '/'+p.productId}>Afficher</Link>
                                     <Link style={isEmploye ? {}: {display: "none" }} to={this.props.match.url + '/edit/'+p.productId}>Modifier</Link>
                                     <button style={isEmploye ? {}: {display: "none" }}  onClick={() => this.props.deleteCallback(p.productId)}>Supprimer</button>
                                     
@@ -76,6 +76,7 @@ export default class ProduitListe extends React.Component {
         search = search.split("&");
         let currPage = 0;
         let searchWord = "";
+        let categoryId = null;
         for (let index = 0; index < search.length; index++) {
             let temp = search[index].split("=");
             if (index === 0) {
@@ -88,6 +89,10 @@ export default class ProduitListe extends React.Component {
                     searchWord = temp[0].indexOf("searchWord") >= 0 ? temp[1] : "";
                 }
             }
+        }
+        if (categoryId !== 0) {
+            this.props.searchByCategory(categoryId);
+            this.props.history.push(this.props.match.url + "?currentPage="+currPage + "&categoryId="+ categoryId);
         }
         if (searchWord !== "") {
             this.props.search(searchWord);
