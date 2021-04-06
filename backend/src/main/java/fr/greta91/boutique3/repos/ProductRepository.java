@@ -25,6 +25,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	@Query("SELECT COUNT(p.productId) from Product p where p.category.categoryId = ?1")
 	int getProduitsCountByCategoryId(int categoryId);
 	
+	@Query("SELECT COUNT(p.productId) from Product p where p.price <= ?1")
+	int getProduitsCountByPrice(double price);
+	
 	@Query("SELECT p from Product p where p.category.categoryId = ?1")
 	List<Product> findAllByCategoryId(int categoryId, Pageable page);
 	

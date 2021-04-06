@@ -33,8 +33,8 @@ public class ProductController {
 	@Autowired
 	ProductRepository productRepo;
 	
-	@Autowired
-	CategoryRepository categoryRepo;
+//	@Autowired
+//	CategoryRepository categoryRepo;
 	
 //	@GetMapping("/public/produits/prix")
 //	public List<Product> getCat(@RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber, 
@@ -46,8 +46,7 @@ public class ProductController {
 //			list = productRepo.findByPriceLessThanEqual(price, page);
 //		}
 //		return list;
-//	}
-	
+//	}	
 	
 	@GetMapping("/public/produits")
 	public List<Product> getProduits(@RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber, 
@@ -86,7 +85,8 @@ public class ProductController {
 	
 	@GetMapping("/public/count")
 	public HashMap<String, Integer> getProduitsCount(@RequestParam(value = "searchWord", required = false, defaultValue = "") String searchWord,
-													 @RequestParam(value = "categoryId", required = false, defaultValue = "0") int categoryId
+													 @RequestParam(value = "categoryId", required = false, defaultValue = "0") int categoryId,
+													 @RequestParam(value = "price", required = false, defaultValue = "0") double price
 			) {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		if (searchWord.length() > 0) {
@@ -94,6 +94,9 @@ public class ProductController {
 		} 
 		else if (categoryId > 0) {
 			map.put("produitsCount", productRepo.getProduitsCountByCategoryId(categoryId));
+		}
+		else if (price > 0) {
+			map.put("produitsCount", productRepo.getProduitsCountByPrice(price));
 		}
 		else {
 			map.put("produitsCount", productRepo.getProduitsCount());
@@ -122,11 +125,12 @@ public class ProductController {
 		}
 	}
 	
-	@DeleteMapping("/employe/produits/delete/{produitId}")
-	public ResponseEntity<String> DeleteProduct(@PathVariable("produitId") int productId) {
+	@PutMapping("/employe/produits/delete")
+	public ResponseEntity<Product> DeleteProduct(@RequestBody Product produit) {
 		try {
-			productRepo.deleteById(productId);
-			return ResponseEntity.ok("OK");
+			produit.setEstActif(false);
+			Product newProduct = productRepo.save(produit);
+			return ResponseEntity.ok(newProduct);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().build();
 		}

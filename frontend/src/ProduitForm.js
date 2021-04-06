@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default class ProduitForm extends React.Component{
-    constructor(props){
+export default class ProduitForm extends React.Component {
+    constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             produit: {
                 productId: "",
                 productName: "",
@@ -14,112 +14,123 @@ export default class ProduitForm extends React.Component{
                     categoryId: null,
                     categoryName: ""
                 },
-                price: "" 
+                price: "",
+                estActif: false
             },
-            categories : []
+            categories: []
         }
         this.handleChange = this.handleChange.bind(this);
     }
-    cancel = (evt)=>{
+    cancel = (evt) => {
         evt.preventDefault();
         this.props.history.push("/produits")
     }
-    save = (evt)=>{
-        if (this.state.produit.category.categoryId == null){
-        this.setState(this.state.produit.category = this.state.categories[0])
+    save = (evt) => {
+        if (this.state.produit.category.categoryId == null) {
+            this.setState(this.state.produit.category = this.state.categories[0])
         }
         evt.preventDefault();
         this.props.saveCallback(this.state.produit);
         console.log(this.state.produit);
     }
-    handleChange = (event) =>{
+    handleChange = (event) => {
         if (event.target.name === "category") {
-            this.setState((state)=>
+            this.setState((state) =>
                 state.produit.category[`categoryId`] = event.target.value)
         }
-        else{
-            this.setState((state)=>state.produit[event.target.name] = event.target.value)
+        if (event.target.name === "estActif") {
+            this.setState((state) =>
+                state.produit.estActif = !state.produit.estActif)
+        }
+        else {
+            this.setState((state) => state.produit[event.target.name] = event.target.value)
         }
     }
-    render(){
+    render() {
         const edit = !!this.props.match.params.id;
         const produit = this.state.produit || {};
         return (
             <form>
-                <div style={edit ? {} : {display:'none'}}>
-                    id : <input name="id" 
-                            readOnly 
-                            value={produit.productId ? produit.productId : 0} />
+                <div style={edit ? {} : { display: 'none' }}>
+                    id : <input name="id"
+                        readOnly
+                        value={produit.productId ? produit.productId : 0} />
                 </div>
                 <div>
-                    nom : <input name="productName" 
-                            value={produit.productName} onChange={this.handleChange}/>
+                    nom : <input name="productName"
+                        value={produit.productName} onChange={this.handleChange} />
                 </div>
                 <div>
-                    Stock : <input name="stock" type="number" value={this.state.produit.stock} onChange={this.handleChange}/>
+                    Stock : <input name="stock" type="number" value={this.state.produit.stock} onChange={this.handleChange} />
                 </div>
                 <div>
-                    Description : <input name="description" type="text" value={this.state.produit.description} onChange={this.handleChange}/>
+                    Description : <input name="description" type="text" value={this.state.produit.description} onChange={this.handleChange} />
                 </div>
                 <div>
-                    urlImage : <input name="urlImage" type="text" value={this.state.produit.urlImage} onChange={this.handleChange}/>
+                    urlImage : <input name="urlImage" type="text" value={this.state.produit.urlImage} onChange={this.handleChange} />
                 </div>
                 <div>
-                    Prix : <input name="price" type="number" value={this.state.produit.price} onChange={this.handleChange}/>
+                    Prix : <input name="price" type="number" value={this.state.produit.price} onChange={this.handleChange} />
                 </div>
                 <div>
-                <label htmlFor="category">Categorie</label>
+                    <label for="est_actif">Actif</label>
+                    <input type="checkbox" id="est_actif" name="estActif" checked={this.state.produit.estActif} value={this.state.produit.estActif} onClick={this.handleChange} />
+                </div>
+                <div>
+                    <label htmlFor="category">Categorie</label>
                     <select name="category" id="category" onChange={this.handleChange} value={this.state.produit.category.categoryId} defaultValue={this.state.produit.category.categoryId}>
-                        {this.state.categories.map(cat=> {
+                        {this.state.categories.map(cat => {
                             // const selected = cat.id === produit.categorie.id ? {selected : "selected"} : {};
                             return <option key={cat.categoryId} value={cat.categoryId}>{cat.categoryName}</option>
                         })}
                     </select>
                 </div>
                 <div>
-                    <button onClick={this.save}>{edit ? "Modifier":"Créer"}</button>
+                    <button onClick={this.save}>{edit ? "Modifier" : "Créer"}</button>
                     <button onClick={this.cancel}>Annuler</button>
                 </div>
-                
+
             </form>
         )
     }
 
-    componentDidMount(){
+    componentDidMount() {
         //get categories
         fetch(`http://localhost:8080/api/categories/public/categories`, {
             method: "GET"
-          })
-          .then((data)=>{
-            console.log("hello1")
-              console.log(data);
-              return data.json()
+        })
+            .then((data) => {
+                console.log("hello1")
+                console.log(data);
+                return data.json()
             })
-          .then((res)=> {
-            console.log(res);
-            this.setState({
-                categories: res,
-              }
-              )
-          }) 
+            .then((res) => {
+                console.log(res);
+                this.setState({
+                    categories: res,
+                }
+                )
+            })
 
-        const id=this.props.match.params.id;
+        const id = this.props.match.params.id;
         if (id) {
             fetch(`http://localhost:8080/api/public/produits/${id}`, {
-            method: "GET"
-          })
-          .then((data)=>{
-              console.log("hello")
-              console.log(data);
-              return data.json()
+                method: "GET"
             })
-          .then((res)=> {
-            console.log(res);
-            this.setState({
-                produit: res
-              }
-              ) 
-          })
-        }       
+                .then((data) => {
+                    console.log("hello")
+                    console.log(data);
+                    return data.json()
+                })
+                .then((res) => {
+                    console.log(res);
+                    this.setState({
+                        produit: res
+                    }
+                    )
+                    console.log("PRODUIT ACTIF ?");
+                    console.log(this.state.produit);
+                })
+        }
     }
 }

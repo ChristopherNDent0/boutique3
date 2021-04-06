@@ -29,7 +29,15 @@ public class Product {
 	private Category category;
 	@Column(name = "prix_actuel")
 	private Double price;
+	@Column(name = "est_actif")
+	private boolean estActif;
 	
+	public boolean isEstActif() {
+		return estActif;
+	}
+	public void setEstActif(boolean estActif) {
+		this.estActif = estActif;
+	}
 	public String getProductName() {
 		return productName;
 	}
@@ -77,7 +85,8 @@ public class Product {
 	public String toString() {
 		return "Product [productId=" + productId + ", productName=" + productName + ", stock=" + stock
 				+ ", description=" + description + ", urlImage=" + urlImage + ", category=" + category + ", price="
-				+ price + "]";
+				+ price + ", estActif=" + estActif + "]";
 	}
+
 	
 }

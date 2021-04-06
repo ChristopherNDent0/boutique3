@@ -48,6 +48,7 @@ export default class ProduitListe extends React.Component {
                     </thead>
                     <tbody>
                         {this.props.produits.map((p) => {
+                            if (p.estActif === true) { 
                             return (<tr key={p.productId}> 
                                 {/* <td>{p.id}</td> */}
                                 <td>{p.productName}</td>
@@ -58,10 +59,9 @@ export default class ProduitListe extends React.Component {
                                 <td>
                                     <Link to={this.props.match.url + '/'+p.productId}>Afficher</Link>
                                     <Link style={isEmploye ? {}: {display: "none" }} to={this.props.match.url + '/edit/'+p.productId}>Modifier</Link>
-                                    <button style={isEmploye ? {}: {display: "none" }}  onClick={() => this.props.deleteCallback(p.productId)}>Supprimer</button>
-                                    
+                                    <button style={isEmploye ? {}: {display: "none" }}  onClick={() => this.props.deleteCallback(p)}>Supprimer</button>     
                                 </td>
-                            </tr>)
+                            </tr>)}
                         })}
                     </tbody>
                 </table>

@@ -4,8 +4,8 @@ import authHeader from './authHeader';
 const API_URL = 'http://localhost:8080/api/';
 
 class ProduitService {
-  getProduits(pageNumber, perPage, searchWord, categoryId) {
-    return axios.get(API_URL + `public/produits?pageNumber=${pageNumber}&perPage=${perPage}&searchWord=${searchWord}&categoryId=${categoryId}`);
+  getProduits(pageNumber, perPage, searchWord, categoryId, price) {
+    return axios.get(API_URL + `public/produits?pageNumber=${pageNumber}&perPage=${perPage}&searchWord=${searchWord}&categoryId=${categoryId}&price=${price}`);
   }
 
   // getProduitsByCategory(pageNumber, perPage, categoryId) {
@@ -17,8 +17,8 @@ class ProduitService {
                 produit, { headers: authHeader() });
   }
 
-  deleteProduit(id) {
-    return axios.delete(API_URL + `employe/produits/delete/${id}`)
+  deleteProduit(produit) {
+    return axios.put(API_URL + `employe/produits/delete`, produit, { headers: authHeader()})
   }
 
   getAdminBoard() {

@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.mvcMatchers(HttpMethod.GET, "/api/employe/**").access("hasRole('ROLE_EMPLOYE')")
 			.mvcMatchers(HttpMethod.POST, "/api/employe/**").access("hasRole('ROLE_EMPLOYE')")
 			.mvcMatchers(HttpMethod.PUT, "/api/employe/**").access("hasRole('ROLE_EMPLOYE')")
-			.mvcMatchers(HttpMethod.DELETE, "/api/employe/**").access("hasRole('ROLE_EMPLOYE')")
+			//.mvcMatchers(HttpMethod.DELETE, "/api/employe/**").access("hasRole('ROLE_EMPLOYE')")
 			//.mvcMatchers(HttpMethod.DELETE, "/api/employe/**").permitAll()
 			.mvcMatchers("/api/**").authenticated();
 	}
