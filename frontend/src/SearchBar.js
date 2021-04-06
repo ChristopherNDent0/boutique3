@@ -9,6 +9,14 @@ export default class SearchBar extends React.Component {
             categories : []
         }
       this.handleChange = this.handleChange.bind(this);  
+      this.keyPress = this.keyPress.bind(this)
+    }
+
+    keyPress(event) {
+      if(event.keyCode == 13){
+        event.preventDefault();
+        this.search();
+      }
     }
 
     handleChange = (event) =>{
@@ -45,13 +53,14 @@ export default class SearchBar extends React.Component {
       return (
         <React.Fragment>
           <div>
-            <input type="text" name="searchWord" onChange={this.handleChange} value={this.state.searchWord}/>
+            <input type="text" name="searchWord" onChange={this.handleChange} onKeyDown={this.keyPress} value={this.state.searchWord} placeholder="Tapez votre recherche"/>
             <button onClick={this.search}>Rechercher</button>
             <button onClick={this.annuler}>Annuler</button>
           </div>
           <div>
             <label htmlFor="category">Categorie </label>
             <select name="category" id="category" onChange={this.handleChange} value={this.state.categoryId} defaultValue={this.state.categoryId}>
+              <option key="All" value={0} >All</option>
               {this.state.categories.map(cat=> {
                 // const selected = cat.id === produit.categorie.id ? {selected : "selected"} : {};
                 return <option key={cat.categoryId} value={cat.categoryId}>{cat.categoryName}</option>

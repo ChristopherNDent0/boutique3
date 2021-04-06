@@ -54,7 +54,7 @@ export default class ProduitListe extends React.Component {
                                 {/* <td>{p.categorie.id}</td> */}
                                 <td>{p.category.categoryName}</td>
                                 <td>{p.price}&euro;</td>
-                                <td><img src={p.urlImage} width="250" height="150"/></td>
+                                <td><img src={p.urlImage} height="150"/></td>
                                 <td>
                                     <Link to={this.props.match.url + '/'+p.productId}>Afficher</Link>
                                     <Link style={isEmploye ? {}: {display: "none" }} to={this.props.match.url + '/edit/'+p.productId}>Modifier</Link>
