@@ -13,8 +13,14 @@ class App extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      currentUser : undefined
+      currentUser : undefined,
+      panier: [] //[{id: 1, nom: test, prixUnitaire: 10.50, quantité: 1}, {id: 5, nom: test5, prixUnitaire: 4.50, quantité: 3}]
     }
+  }
+
+  addToCart = (produit, quantite)=>{
+    const lignePanier = {id: produit.id, nom: produit.nom, prixUnitaire: produit.prixUnitaire, quantite: quantite};
+    this.setState((state)=>state.panier = state.panier.concat(lignePanier))
   }
 
   setCurrentUser = (user)=>{

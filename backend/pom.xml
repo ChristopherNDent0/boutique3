@@ -75,36 +75,5 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 	</dependencies>
-	
-	<packaging>war</packaging>
-
-	<build>
-		<finalName>boutique3</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-install-plugin</artifactId>
-				<version>2.5.2</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>install-file</goal>
-						</goals>
-						<phase>install</phase>
-						<configuration>
-							<file>${project.build.finalName}.${project.packaging}</file>
-							<generatePom>false</generatePom>
-							<pomFile>pom.xml</pomFile>
-							<version>${my.version}</version>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>
