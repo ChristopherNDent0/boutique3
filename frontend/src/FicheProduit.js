@@ -27,7 +27,7 @@ export default class FicheProduit extends React.Component{
                     <li>Nom : {this.state.produit.productName}</li>
                     <li>Stock : {this.state.produit.stock}</li>
                     <li>Description : {this.state.produit.description}</li>
-                    <li><img src={this.state.produit.urlImage} width="250" height="150"/></li>
+                    <li><img src={this.state.produit.urlImage} height="150"/></li>
                     <li>Categorie : {this.state.produit.category.categoryName}</li>
                     <li>Prix : {this.state.produit.price}</li>
                 </ul>

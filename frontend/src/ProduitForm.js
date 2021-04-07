@@ -86,7 +86,7 @@ export default class ProduitForm extends React.Component {
                     </select>
                 </div>
                 <div>
-                    <button onClick={this.save}>{edit ? "Modifier" : "Créer"}</button>
+                    <button onClick={(event) => { if (window.confirm('Are you sure you wish to modify this item?')) {this.save(event)}}}>{edit ? "Modifier" : "Créer"}</button>
                     <button onClick={this.cancel}>Annuler</button>
                 </div>
 
