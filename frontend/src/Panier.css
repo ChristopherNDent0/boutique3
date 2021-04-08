@@ -1,0 +1,44 @@
+#produits {
+	display: flex;
+	flex-direction: column;
+    background-color: rgb(221, 221, 240);
+    padding: 1em;
+    border: 1em;
+}
+
+#produits > section {
+	display: flex;
+	flex-wrap: wrap;
+    flex-direction: row;
+    background-color: white;
+	padding: 1em;
+    border-radius: 2em;
+    margin: 1em;
+    width: 80%;
+}
+
+#produits > section > div {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 1em;
+	max-width: 50%;
+}
+
+#DeleteProductCart{
+    font-size: 1.5em;
+}
+
+#ProductName,#Price,#Quantity {
+    font-size: 1.5em;
+}
+
+/* Adaptation aux petits écrans mobiles */
+@media (max-width:480px) {
+	#produits > section > div {
+		max-width: 100%;
+	}
+	#produits > section > div > * {
+		padding: 1em 0;	
+	}
+}

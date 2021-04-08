@@ -16,24 +16,28 @@ class App extends React.Component {
       panier: [],
       panierCount: 0
     }
+    // this.deleteFromCart = this.deleteFromCart.bind(this);
+    // this.deleteAllFromCart = this.deleteAllFromCart.bind(this);
   }
+
   addToCart = (produit, quantite = 1) => {
     this.setState({ panierCount: this.state.panierCount + 1 })
     let newProduit = true;
 
     this.state.panier.forEach(p => {
-      if (p.id === produit.id) {
+      if (p.product.productId === produit.productId) {
         newProduit = false;
       }
     })
     this.setState((state) => {
       if (newProduit) {
-        const lignePanier = { id: produit.id, nom: produit.nom, quantite: quantite };
+        // const lignePanier = { productId: produit.productId, productName: produit.productName};
+        const lignePanier = { product: produit, quantite: 1 };
         state.panier = [...state.panier, lignePanier];
       }
       else {
         state.panier = state.panier.map((p) => {
-          p.quantite = p.id === produit.id ? p.quantite + 1 : p.quantite;
+          p.quantite = p.product.productId === produit.productId ? p.quantite + 1 : p.quantite;
           return p;
         })
       }
@@ -41,12 +45,12 @@ class App extends React.Component {
     })
   }
   deleteFromCart = (produitId) => {
-    this.setState((state) => state.panier = state.panier.filter((p) => p.id !== produitId))
+    this.setState((state) => state.panier = state.panier.filter((p) => (p.product.productId !== produitId)))
   }
   editCartItem = (produitId, quantite) => {
     this.setState((state) => state.panier = state.panier.map((p) => {
-      p.quantite = p.id === produitId ? quantite : p.quantite;
-      return p;
+        p.quantite = p.product.productId === produitId ? quantite : p.quantite;
+        return p;
     }
     ))
   }

@@ -1,4 +1,5 @@
 import React from 'react';
+import './Panier.css';
 
 export default class Panier extends React.Component {
     constructor(props) {
@@ -10,32 +11,41 @@ export default class Panier extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>id</th>
-                            <th>nom</th>
-                            <th>quantité</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.props.panier.map((p) => {
-                            return (<tr key={p.id}>
-                                <td>{p.id}</td>
-                                <td>{p.nom}</td>
-                                <td><input type="number" value={p.quantite} onChange={(e) => this.handleChange(e, p.id)} /></td>
-                                <td>
-                                    <button onClick={() => this.props.deleteFromCart(p.id)}>Supprimer</button>
-                                </td>
-                            </tr>)
-                        })}
-                    </tbody>
-                </table>
+                {/* <div id="All">
+                    <ReactPaginate
+                        previousLabel={"← Previous"}
+                        nextLabel={"Next →"}
+                        initialSelected={this.props.currentPage}
+                        forcePage={this.props.currentPage}
+                        pageCount={this.props.pageCount}
+                        onPageChange={this.handlePageClick}
+                        containerClassName={"pagination"}
+                        previousLinkClassName={"pagination__link"}
+                        nextLinkClassName={"pagination__link"}
+                        disabledClassName={"pagination__link--disabled"}
+                        activeClassName={"pagination__link--active"}
+                    />
+                </div> */}
+                <section id="produits">
+                    {this.props.panier.map((p) => {
+                        return (
+                            <section>
+                                <div><img src={p.product.urlImage} height="150" /></div>
+                                <section id="NamePriceQuantity">
+                                    <div id="ProductName">{p.product.productName}</div>
+                                    <div id="Price">Prix à l'unité : {p.product.price}&euro;<br/>
+                                                    Prix total : {p.product.price*p.quantite}&euro;
+                                    </div>
+                                    <div id="Quantity">Quantite <input type="number" value={p.quantite} onChange={(e) => {(p.quantite<=1) ? this.props.deleteFromCart(p.product.productId) : this.handleChange(e, p.product.productId)}} /></div>
+                                </section>
+                                <div><button id="DeleteProductCart" onClick={() => this.props.deleteFromCart(p.product.productId)}>Supprimer</button></div>
+                            </section>)
+                    }
+                    )}
+                </section>
                 <button onClick={this.props.deleteAllFromCart}>Vider le panier</button>
                 <button onClick={() => this.props.passerCommande(this.props.panier)}>Passer la commande</button>
             </React.Fragment>
-
         )
     }
     componentDidMount() {
