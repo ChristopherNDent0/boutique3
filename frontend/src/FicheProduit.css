@@ -1,0 +1,31 @@
+#produit {
+	display: flex;
+	flex-direction: row;
+	padding: 1em;
+}
+
+#produit > #NomDescription {
+	display: flex;
+    flex-direction: row;
+	flex-wrap: wrap;
+	padding: 1em;
+}
+
+#produit > #NomDescription > #Nom > :nth-child(1),:nth-child(2){
+	justify-content: ;
+}
+
+#ProductName {
+	font-size: 1.5em;
+}
+
+
+/* Adaptation aux petits écrans mobiles */
+@media (max-width:480px) {
+	#produit > section > div {
+		max-width: 100%;
+	}
+	#produit > section > div > * {
+		padding: 1em 0;	
+	}
+}

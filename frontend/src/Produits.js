@@ -127,7 +127,7 @@ export default class Produits extends React.Component {
       })
     }
     else {
-      fetch(`http://localhost:8080/produits/edit`, {
+      fetch(`http://localhost:8080/employe/produits/edit`, {
         method: "PUT",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(produit)
@@ -231,6 +231,7 @@ export default class Produits extends React.Component {
               setCurrentPage={this.setCurrentPage}
               deleteCallback={this.delete}
               searchByCategory={this.searchByCategory}
+              addToCart={this.props.addToCart}
                />
           } />
         </Switch>

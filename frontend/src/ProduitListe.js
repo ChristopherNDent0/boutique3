@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
+import './ProduitListe.css'
 
 export default class ProduitListe extends React.Component {
     constructor(props) {
@@ -33,42 +34,31 @@ export default class ProduitListe extends React.Component {
                     activeClassName={"pagination__link--active"}
                     
                 />
-                <table>
-                    <thead>
-                        <tr>
-                            {/* <th>id</th> */}
-                            <th>Nom</th>
-                            {/* <th>cat id</th> */}
-                            <th>Catégorie</th>
-                            <th>Prix</th>
-                            <th>Image</th>
-                            {/* <th>Action</th> */}
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.props.produits.map((p) => {
+                <section id="produits">
+                {this.props.produits.map((p) => {
                             if (p.estActif === true) { 
-                            return (<tr key={p.productId}> 
-                                {/* <td>{p.id}</td> */}
-                                <td>{p.productName}</td>
-                                {/* <td>{p.categorie.id}</td> */}
-                                <td>{p.category.categoryName}</td>
-                                <td>{p.price}&euro;</td>
-                                <td><img src={p.urlImage} height="150"/></td>
-                                <td>
+                            return (
+                            <section>
+                            <div><img src={p.urlImage} height="150"/></div>
+                            <section id="NameCategoryPrice">
+                                {/* <div><img src={p.urlImage} height="150"/></div> */}
+                                <div id="ProductName">{p.productName}</div>
+                                <div>{p.category.categoryName}</div>
+                                <div id="price">{p.price}&euro;</div>
+                                <div>
+                                    <button onClick={()=>this.props.addToCart(p)}>Ajouter au panier</button>
                                     <Link to={this.props.match.url + '/'+p.productId}>Afficher</Link>
                                     <Link style={isEmploye ? {}: {display: "none" }} to={this.props.match.url + '/edit/'+p.productId}>Modifier</Link>
                                     <button style={isEmploye ? {}: {display: "none" }}  onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) {this.props.deleteCallback(p)}}}>Supprimer</button>     
-                                </td>
-                            </tr>)}
+                                </div>
+                            </section>
+                            </section>)}
                         })}
-                    </tbody>
-                </table>
-            </React.Fragment>
-
-        )
-    }
+	            </section>
+                </React.Fragment>
+                )
+                }
+                
     componentDidMount(){
         console.log("ProduitList Componentdidmount called");
         let search = this.props.location.search;

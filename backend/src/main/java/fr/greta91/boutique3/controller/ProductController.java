@@ -115,7 +115,7 @@ public class ProductController {
 		}
 	}
 	
-	@PutMapping("/edit")
+	@PutMapping("/employe/produits/edit")
 	public ResponseEntity<Product> editProduct(@RequestBody Product product) {
 		try {
 			Product newProduct = productRepo.save(product);

@@ -1,7 +1,8 @@
 import React from 'react';
+import './FicheProduit.css'
 
-export default class FicheProduit extends React.Component{
-    constructor(props){
+export default class FicheProduit extends React.Component {
+    constructor(props) {
         super(props);
         this.state = {
             produit: {
@@ -14,36 +15,40 @@ export default class FicheProduit extends React.Component{
                     categoryId: null,
                     categoryName: ""
                 },
-                price: "" 
+                price: ""
             }
         }
     }
 
-    render(){
+    render() {
         return (
-            <div>
-                <ul>
-                    <li>Id : {this.state.produit.productId}</li>
-                    <li>Nom : {this.state.produit.productName}</li>
-                    <li>Stock : {this.state.produit.stock}</li>
-                    <li>Description : {this.state.produit.description}</li>
-                    <li><img src={this.state.produit.urlImage} height="150"/></li>
-                    <li>Categorie : {this.state.produit.category.categoryName}</li>
-                    <li>Prix : {this.state.produit.price}</li>
-                </ul>
-            </div>
+            <section id="produit">
+                <div><img src={this.state.produit.urlImage} height="250" /></div>
+                <section id="NomDescription">
+                    <section id="Nom">
+                        <div id="ProductName">{this.state.produit.productName}</div>
+                        <div>(Id : {this.state.produit.productId})</div>
+                        <div>Stock : {this.state.produit.stock}</div>
+                    </section>
+                    <section>
+                        <div id="description">{this.state.produit.description}</div>
+                        <div>Categorie : {this.state.produit.category.categoryName}</div>
+                        <div id="price">Prix : {this.state.produit.price}€</div>
+                    </section>
+                </section>
+            </section >
         )
     }
 
-    componentDidMount(){
+    componentDidMount() {
         const id = this.props.match.params.id;
-        fetch("http://localhost:8080/api/public/produits/"+id, {
+        fetch("http://localhost:8080/api/public/produits/" + id, {
             method: "GET"
         })
-        .then((data)=>data.json())
-        .then((res)=>{
-        this.setState({produit : res}) //{"productId":1,"productName":"HP","stock":5,"description":"text","urlImage":"adz","category":{"categoryId":1,"categoryName":"ordinateur"},"price":200.0}
-        console.log(res)
-      })
+            .then((data) => data.json())
+            .then((res) => {
+                this.setState({ produit: res }) //{"productId":1,"productName":"HP","stock":5,"description":"text","urlImage":"adz","category":{"categoryId":1,"categoryName":"ordinateur"},"price":200.0}
+                console.log(res)
+            })
     }
 }

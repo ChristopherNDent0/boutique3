@@ -1,4 +1,5 @@
 import React from 'react';
+import './ProduitForm.css'
 
 export default class ProduitForm extends React.Component {
     constructor(props) {
@@ -64,13 +65,13 @@ export default class ProduitForm extends React.Component {
                     Stock : <input name="stock" type="number" value={this.state.produit.stock} onChange={this.handleChange} />
                 </div>
                 <div>
-                    Description : <input name="description" type="text" value={this.state.produit.description} onChange={this.handleChange} />
+                    Description : <textarea rows="8" name="description" type="text" value={this.state.produit.description} onChange={this.handleChange} />
                 </div>
                 <div>
                     urlImage : <input name="urlImage" type="text" value={this.state.produit.urlImage} onChange={this.handleChange} />
                 </div>
                 <div>
-                    Prix : <input name="price" type="number" value={this.state.produit.price} onChange={this.handleChange} />
+                    Prix : <input name="price" type="number" value={this.state.produit.price} onChange={this.handleChange}/>€
                 </div>
                 <div>
                     <label for="est_actif">Actif</label>
