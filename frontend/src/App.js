@@ -6,7 +6,8 @@ import Produits from './Produits';
 import Categories from './Categories';
 import Login from './Login';
 import AuthService from './AuthService';
-
+import Header from "./components/header/Header";
+import Cart from "./Cart";
 
 
 class App extends React.Component{
@@ -35,19 +36,12 @@ class App extends React.Component{
   render(){
     return (
       <div className="App">
-        <header className="App-header">
-          <Link to="/produits?currentPage=0">Produits</Link>
-          <Link to="/categories">Categories</Link>
-          {(this.state.currentUser) && <a href="/login" className="nav-link" onClick={this.logOut}>
-                  Se déconnecter
-                </a>}
-          {(!this.state.currentUser) && <Link to="/login">Se connecter</Link>}
-          
-        </header>
+        <Header/>
         <main>
           <Route path="/produits" render={(props)=> <Produits {...props} currentUser={this.state.currentUser} />}/>
           <Route path="/categories" component={Categories}/>
           <Route path="/login" render={(props)=> <Login {...props} setCurrentUser={this.setCurrentUser} />}/>
+          <Route path="/cart" component={Cart}/>
         </main>
       </div>
     );

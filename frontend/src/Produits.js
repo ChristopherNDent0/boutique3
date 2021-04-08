@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
-import FicheProduit from './FicheProduit';
 import ProduitForm from './ProduitForm';
 import ProduitListe from './ProduitListe';
 import SearchBar from './SearchBar';
 import ProduitService from './ProduitService'
+import ProductInfo from "./pages/product-info/ProductInfo";
 
 export default class Produits extends React.Component {
     constructor(props) {
@@ -207,7 +207,7 @@ export default class Produits extends React.Component {
                     <Route path={this.props.match.path + '/edit/:id'} render={
                         (props)=> <ProduitForm {...props}  saveCallback={this.save} />
                     } />
-                    <Route path={this.props.match.path + '/:id'} component={FicheProduit} />
+                    <Route path={this.props.match.path + '/:id'} component={ProductInfo} />
                     <Route exact path={this.props.match.path + '/'} render={
                         (props)=> <ProduitListe {...props} 
                                         currentUser={this.props.currentUser}
