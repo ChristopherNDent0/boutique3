@@ -4,8 +4,8 @@ export default class Panier extends React.Component {
     constructor(props) {
         super(props);
     }
-    handleChange=(event, produitId)=>{
-      this.props.editCartItem(produitId, event.target.value);
+    handleChange = (event, produitId) => {
+        this.props.editCartItem(produitId, event.target.value);
     }
     render() {
         return (
@@ -15,18 +15,16 @@ export default class Panier extends React.Component {
                         <tr>
                             <th>id</th>
                             <th>nom</th>
-                            {/* <th>prix</th> */}
                             <th>quantité</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {this.props.panier.map((p) => {
-                            return (<tr key={p.id}> 
+                            return (<tr key={p.id}>
                                 <td>{p.id}</td>
                                 <td>{p.nom}</td>
-                                {/* <td>{p.prixUnitaire}</td> */}
-                                <td><input type="number" value={p.quantite} onChange={(e)=>this.handleChange(e, p.id)}/></td>
+                                <td><input type="number" value={p.quantite} onChange={(e) => this.handleChange(e, p.id)} /></td>
                                 <td>
                                     <button onClick={() => this.props.deleteFromCart(p.id)}>Supprimer</button>
                                 </td>
@@ -40,7 +38,7 @@ export default class Panier extends React.Component {
 
         )
     }
-    componentDidMount(){
-        
+    componentDidMount() {
+
     }
 }

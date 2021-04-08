@@ -15,10 +15,10 @@ import fr.greta91.boutique3.repos.CategoryRepository;
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
-	
+
 	@Autowired
 	CategoryRepository categoryRepo;
-	
+
 	@GetMapping("/public/categories")
 	public List<Category> getCategories() {
 		List<Category> list = categoryRepo.findAll();

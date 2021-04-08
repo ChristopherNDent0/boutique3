@@ -4,7 +4,7 @@ import FicheProduit from './FicheProduit';
 import ProduitForm from './ProduitForm';
 import ProduitListe from './ProduitListe';
 import SearchBar from './SearchBar';
-import ProduitService from './ProduitService'
+import ProduitService from './ProduitService';
 
 export default class Produits extends React.Component {
   constructor(props) {
@@ -28,22 +28,8 @@ export default class Produits extends React.Component {
   setPerPage = (perPage) => {
     this.setState({ perPage: perPage });
     this.getProduits(this.state.currentPage, perPage, this.state.searchWord);
-  }
+  } 
   getProduits = (pageNumber = this.state.currentPage, perPage = this.state.perPage, searchWord = "", categoryId = 0, price = 0) => {
-    // fetch(`http://localhost:8080/produits?pageNumber=${pageNumber}&perPage=${perPage}&searchWord=${searchWord}`, {
-    //       method: "GET"
-    //     })
-    //     .then((data)=>{
-    //         console.log(data);
-    //         return data.json()
-    //       })
-    //     .then((res)=> {
-    //       console.log(res);
-    //       this.setState({
-    //           produits: res
-    //         }
-    //         )
-    //     })
     ProduitService.getProduits(pageNumber, perPage, searchWord, categoryId, price).then((response) => {
       console.log(response.data);
       this.setState({ produits: response.data })
@@ -53,31 +39,6 @@ export default class Produits extends React.Component {
       console.log(error);
     })
   }
-  // getProduitsByCategory = (pageNumber=this.state.currentPage, perPage=this.state.perPage, categoryId=null)=>{
-  //   ProduitService.getProduits(pageNumber, perPage, categoryId).then((response)=>{
-  //     console.log(response.data);
-  //     this.setState({produits: response.data})
-  //   }, (error)=>{
-  //     console.log(error);
-  //   })
-  // }
-  // getProduitsCountByCategory = (categoryId=null)=>{
-  //   fetch(`http://localhost:8080/api/public/count?categoryId=${categoryId}`, {
-  //         method: "GET"
-  //       })
-  //       .then((data)=>{
-  //           console.log(data);
-  //           return data.json()
-  //         })
-  //       .then((res)=> {
-  //         console.log(res);
-  //         this.setState({
-  //           produitsCount: res.produitsCount,
-  //           pageCount: Math.ceil(res.produitsCount / this.state.perPage)
-  //           }
-  //         )
-  //       })
-  // }
   getProduitsCount = (searchWord = "", categoryId = 0, price = 0) => {
     fetch(`http://localhost:8080/api/public/count?searchWord=${searchWord}&categoryId=${categoryId}&price=${price}`, {
       method: "GET"
@@ -98,19 +59,6 @@ export default class Produits extends React.Component {
   save = (produit) => {
     //ajout d'un nouveau produit
     if (!produit.id) {
-      //   fetch("http://localhost:8080/create", {
-      //     method: "POST",
-      //     headers: {"Content-type": "application/json"},
-      //     body: JSON.stringify(produit)
-      //   })
-      //   .then((data)=>data.json())
-      //   .then((res)=>{
-      //     // this.setState({produits: this.state.produits.concat(res)})
-      //     // console.log(res)
-      //     this.getProduitsCount();
-      //     this.props.history.push(`/produits?currentPage=${this.state.pageCount-1}&searchWord=${this.state.searchWord}`)
-      //     this.setCurrentPage(this.state.pageCount-1)
-      //   })
       ProduitService.createProduit(produit).then((response) => {
         console.log(response.data);
         this.getProduitsCount();
@@ -143,7 +91,7 @@ export default class Produits extends React.Component {
 
     }
   }
-  delete = (produit) => {//productId = 2 => products=[1,3]
+  delete = (produit) => {
     ProduitService.deleteProduit(produit).then((response) => {
       console.log(response.data);
       this.props.history.push(`/produits?currentPage=${this.state.pageCount - 1}`)
@@ -157,22 +105,6 @@ export default class Produits extends React.Component {
         }
       }
     })
-    // fetch(`http://localhost:8080/api/employe/produits/delete/${produitId}`, {
-    //   method: "DELETE"
-    // })
-    // .then((data)=>{
-    //     console.log(data);
-    //     if (data.status === 200) {
-    //         this.setState(
-    //             {produits : 
-    //               this.state.produits.filter((produit)=> produit.id !== produitId)})
-    //         this.getProduitsCount();
-    //     }
-    //     else{
-    //         alert("Opération échouée!")
-    //     }
-
-    // })
   }
 
   searchByPrice = (price) => {
@@ -204,7 +136,7 @@ export default class Produits extends React.Component {
     console.log(this.props.match);
     const isEmploye = this.props.currentUser && this.props.currentUser.roles && this.props.currentUser.roles.includes("ROLE_EMPLOYE");
     return (
-      <React.Fragment>
+      <div id="All">
         <div className="App-header">
           {(isEmploye && <Link to={this.props.match.url + '/create'}>Créer un produit</Link>)}
           <SearchBar searchCallback={this.search} searchByCategoryCallback={this.searchByCategory} annulerSearch={this.clearSearchWord} searchByPrice={this.searchByPrice} />
@@ -232,35 +164,14 @@ export default class Produits extends React.Component {
               deleteCallback={this.delete}
               searchByCategory={this.searchByCategory}
               addToCart={this.props.addToCart}
-               />
+            />
           } />
         </Switch>
-
-      </React.Fragment>
+      </div>
 
     );
   }
   componentDidMount() {
-    //get produits
-    // fetch(`http://localhost:8080/produits`, {
-    //     method: "GET"
-    //   })
-    //   .then((data)=>{
-    //       console.log(data);
-    //       return data.json()
-    //     })
-    //   .then((res)=> {
-    //     console.log(res);
-    //     this.setState({
-    //         produits: res
-    //       }
-    //       )
-    //   })
-    // if(this.state.searchWord !== ""){
-    //   this.getProduitsCount();
-    // }
     this.getProduitsCount();
-    // this.getProduits();
-
   }
 }

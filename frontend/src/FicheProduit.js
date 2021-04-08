@@ -47,7 +47,7 @@ export default class FicheProduit extends React.Component {
         })
             .then((data) => data.json())
             .then((res) => {
-                this.setState({ produit: res }) //{"productId":1,"productName":"HP","stock":5,"description":"text","urlImage":"adz","category":{"categoryId":1,"categoryName":"ordinateur"},"price":200.0}
+                this.setState({ produit: res })
                 console.log(res)
             })
     }

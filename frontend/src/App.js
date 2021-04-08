@@ -3,7 +3,6 @@ import React from 'react';
 import './App.css';
 import { Link, Route } from 'react-router-dom';
 import Produits from './Produits';
-import Categories from './Categories';
 import Login from './Login';
 import AuthService from './AuthService';
 import AccessDenied from './AccessDenied';
@@ -14,7 +13,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       currentUser: undefined,
-      panier: [],//[{id: 1, nom: test, prixUnitaire: 10.50, quantité: 1}, {id: 5, nom: test5, prixUnitaire: 4.50, quantité: 3}]
+      panier: [],
       panierCount: 0
     }
   }
@@ -29,9 +28,8 @@ class App extends React.Component {
     })
     this.setState((state) => {
       if (newProduit) {
-        const lignePanier = { id: produit.id, nom: produit.nom, /*prixUnitaire: produit.prixUnitaire, */quantite: quantite };
+        const lignePanier = { id: produit.id, nom: produit.nom, quantite: quantite };
         state.panier = [...state.panier, lignePanier];
-        // state.panier = state.panier.concat(lignePanier)
       }
       else {
         state.panier = state.panier.map((p) => {
@@ -71,7 +69,6 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <Link to="/produits?currentPage=0">Produits</Link>
-          <Link to="/categories">Categories</Link>
           <Link to="/panier">Panier ({this.state.panier.length})</Link>
           {(this.state.currentUser) && <div>
             <span>{this.state.currentUser.username} | </span>
@@ -85,7 +82,6 @@ class App extends React.Component {
         <main>
           <Route path="/produits" render={(props) => <Produits {...props} addToCart={this.addToCart} currentUser={this.state.currentUser} />} />
           <Route path="/panier" render={(props) => <Panier {...props} panier={this.state.panier} deleteFromCart={this.deleteFromCart} editCartItem={this.editCartItem} deleteAllFromCart={this.deleteAllFromCart} />} />
-          <Route path="/categories" component={Categories} />
           <Route path="/login" render={(props) => <Login {...props} setCurrentUser={this.setCurrentUser} />} />
           <Route path="/access_denied" component={AccessDenied} />
         </main>
@@ -103,57 +99,3 @@ class App extends React.Component {
 }
 
 export default App;
-// import React from 'react';
-
-// import './App.css';
-// import {Link, Route} from 'react-router-dom';
-// import Produits from './Produits';
-// import Categories from './Categories';
-// import Login from './Login';
-// import AuthService from './AuthService';
-
-
-
-// class App extends React.Component{
-//   constructor(props){
-//     super(props);
-//     this.state = {
-//       currentUser : undefined
-//     }
-//   }
-
-//   setCurrentUser = (user)=>{
-//     console.log(user);
-//     this.setState({currentUser: user})
-//   }
-
-//   logOut = () =>{
-//     AuthService.logout();
-//   }
-
-//   render(){
-//     return (
-//       <div className="App">
-//         <header className="App-header">
-//           <Link to="/produits?currentPage=0">Produits</Link>
-//           <Link to="/categories">Categories</Link>
-//           {(this.state.currentUser) && <a href="/login" className="nav-link" onClick={this.logOut}>
-//                   Se déconnecter
-//                 </a>}
-//           {(!this.state.currentUser) && <Link to="/login">Se connecter</Link>}
-
-//         </header>
-//         <main>
-//           <Route path="/produits" render={(props)=> <Produits {...props} currentUser={this.state.currentUser} />}/>
-//           <Route path="/categories" component={Categories}/>
-//           <Route path="/login" render={(props)=> <Login {...props} setCurrentUser={this.setCurrentUser} />}/>
-//         </main>
-//       </div>
-//     );
-//   }
-//   componentDidMount(){
-//     this.setState({currentUser : AuthService.getCurrentUser()})
-//   }
-// }
-
-// export default App;

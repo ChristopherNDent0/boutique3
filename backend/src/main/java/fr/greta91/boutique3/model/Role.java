@@ -15,18 +15,18 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@NotNull
 	@Column(nullable = false, unique = true)
 	private String libelle;
-	
+
 	@ManyToMany(mappedBy = "roles")
 	private Set<User> users;
-	
+
 	public Role() {
 		users = new HashSet<User>();
 	}
@@ -54,9 +54,9 @@ public class Role implements Serializable {
 	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
-	
+
 	public void addUser(User user) {
 		this.users.add(user);
 	}
-	
+
 }

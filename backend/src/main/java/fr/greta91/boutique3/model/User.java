@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -21,36 +20,36 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@NotNull
 	@Column(nullable = false, unique = true, length = 25)
 	private String username;
-	
+
 	@NotNull
 	@Column(nullable = false, length = 255)
 	private String password;
-	
+
 	@NotNull
 	@Column(nullable = false)
 	private String nom;
-	
+
 	@NotNull
 	@Column(nullable = false)
 	private String prenom;
-	
+
 //	@NotNull
 //	@Column(nullable = false, unique = true, length = 255)
 //	private String mail;
 //	
 //	@Column(nullable = true, length = 25)
 //	private String telephone;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Role> roles;
-	
+
 //	@OneToMany(mappedBy = "user")
 //	private Set<Adresse> adresses;
-	
+
 	public User() {
 		roles = new HashSet<>();
 //		adresses = new HashSet<>();
@@ -113,7 +112,7 @@ public class User implements Serializable {
 //	public void setTelephone(String telephone) {
 //		this.telephone = telephone;
 //	}
-	
+
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -121,7 +120,7 @@ public class User implements Serializable {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
+
 //	public Set<Adresse> getAdresses() {
 //		return adresses;
 //	}
@@ -133,6 +132,5 @@ public class User implements Serializable {
 //	public void addAdresse(Adresse adresse) {
 //		this.adresses.add(adresse);
 //	}
-	
-}
 
+}

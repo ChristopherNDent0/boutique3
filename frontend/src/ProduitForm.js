@@ -71,7 +71,7 @@ export default class ProduitForm extends React.Component {
                     urlImage : <input name="urlImage" type="text" value={this.state.produit.urlImage} onChange={this.handleChange} />
                 </div>
                 <div>
-                    Prix : <input name="price" type="number" value={this.state.produit.price} onChange={this.handleChange}/>€
+                    Prix : <input name="price" type="number" value={this.state.produit.price} onChange={this.handleChange} />€
                 </div>
                 <div>
                     <label for="est_actif">Actif</label>
@@ -81,13 +81,12 @@ export default class ProduitForm extends React.Component {
                     <label htmlFor="category">Categorie</label>
                     <select name="category" id="category" onChange={this.handleChange} value={this.state.produit.category.categoryId} defaultValue={this.state.produit.category.categoryId}>
                         {this.state.categories.map(cat => {
-                            // const selected = cat.id === produit.categorie.id ? {selected : "selected"} : {};
                             return <option key={cat.categoryId} value={cat.categoryId}>{cat.categoryName}</option>
                         })}
                     </select>
                 </div>
                 <div>
-                    <button onClick={(event) => { if (window.confirm('Are you sure you wish to modify this item?')) {this.save(event)}}}>{edit ? "Modifier" : "Créer"}</button>
+                    <button onClick={(event) => { if (window.confirm('Are you sure you wish to modify this item?')) { this.save(event) } }}>{edit ? "Modifier" : "Créer"}</button>
                     <button onClick={this.cancel}>Annuler</button>
                 </div>
 

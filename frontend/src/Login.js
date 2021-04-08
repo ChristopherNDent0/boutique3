@@ -27,19 +27,19 @@ export default class Login extends Component {
     };
   }
 
-  onChangeUsername = (e)=>{
+  onChangeUsername = (e) => {
     this.setState({
       username: e.target.value
     });
   }
 
-  onChangePassword = (e)=> {
+  onChangePassword = (e) => {
     this.setState({
       password: e.target.value
     });
   }
 
-  handleLogin = (e) =>{
+  handleLogin = (e) => {
     e.preventDefault();
 
     this.setState({
@@ -55,10 +55,10 @@ export default class Login extends Component {
           console.log(user);
           this.props.setCurrentUser(user);
           if (user.roles.includes("ROLE_EMPLOYE")) {
-            this.props.history.push("/employe"); 
+            this.props.history.push("/employe");
           }
           else if (user.roles.includes("ROLE_USER")) {
-            this.props.history.push("/home"); 
+            this.props.history.push("/home");
           }
           // window.location.reload();
         },
@@ -75,7 +75,7 @@ export default class Login extends Component {
             console.log(error.message);
             resMessage = "Serveur HS";
           }
-          else{
+          else {
             // Something happened in setting up the request that triggered an Error
             console.log(error.message);
             resMessage = "problème de configuration";

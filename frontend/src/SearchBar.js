@@ -22,16 +22,13 @@ export default class SearchBar extends React.Component {
   }
 
   handleChangePrice = (event) => {
-    this.setState({price : event.target.value})
+    this.setState({ price: event.target.value })
   }
 
   handleChange = (event) => {
     if (event.target.name === "category") {
       this.setState((state) =>
         state.categoryId = event.target.value)
-      // console.log("CATEGORY ID");
-      // console.log(this.state.categoryId);
-      // this.props.searchByCategoryCallback(this.state.categoryId);
       this.props.searchByCategoryCallback(event.target.value);   // il y a une latence entre le set state et qd la variable a été updater c'est pour cela qu'on utilise event.target.value comme cela c'est immédiat   
     }
     else {
@@ -42,11 +39,9 @@ export default class SearchBar extends React.Component {
   searchByPrice = () => {
     let price = this.state.price;
     this.props.searchByPrice(price);
-    // console.log("PRIX");
-    // console.log(price);
   }
 
-  search = (evt) => {
+  search = () => {
     let searchWord = this.state.searchWord.trim();
     if (searchWord.length > 0) {
       this.props.searchCallback(searchWord.toLowerCase());
@@ -73,11 +68,7 @@ export default class SearchBar extends React.Component {
     const allRanges = document.querySelectorAll(".range-wrap");
     allRanges.forEach(wrap => {
       const range = wrap.querySelector(".range");
-      // console.log("RANGE");
-      // console.log(range);
       const bubble = wrap.querySelector(".bubble");
-      // console.log("BUBBLE");
-      // console.log(bubble);
 
       range.addEventListener("input", () => {
         this.setBubble(range, bubble);
@@ -93,18 +84,17 @@ export default class SearchBar extends React.Component {
           <button onClick={this.annuler}>Annuler</button>
         </div>
         <div class="range-wrap">
-          Prix<br/>
+          Prix<br />
           <button onClick={this.searchByPrice}>Confirmer</button>
-          <input type="range" max='1000' class="range" onChange={this.handleChangePrice}/>
+          <input type="range" max='1000' class="range" onChange={this.handleChangePrice} />
           <output class="bubble"></output>
-          
+
         </div>
         <div>
           <label htmlFor="category">Categorie </label>
           <select name="category" id="category" onChange={this.handleChange} value={this.state.categoryId} defaultValue={this.state.categoryId}>
             <option key="All" value={0} >All</option>
             {this.state.categories.map(cat => {
-              // const selected = cat.id === produit.categorie.id ? {selected : "selected"} : {};
               return <option key={cat.categoryId} value={cat.categoryId}>{cat.categoryName}</option>
             })}
           </select>

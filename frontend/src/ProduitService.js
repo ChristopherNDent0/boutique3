@@ -8,17 +8,13 @@ class ProduitService {
     return axios.get(API_URL + `public/produits?pageNumber=${pageNumber}&perPage=${perPage}&searchWord=${searchWord}&categoryId=${categoryId}&price=${price}`);
   }
 
-  // getProduitsByCategory(pageNumber, perPage, categoryId) {
-  //   return axios.get(API_URL + `public/produits?pageNumber=${pageNumber}&perPage=${perPage}&categoryId=${categoryId}`);
-  // }
-
   createProduit(produit) {
-    return axios.post(API_URL + 'employe/produits/create', 
-                produit, { headers: authHeader() });
+    return axios.post(API_URL + 'employe/produits/create',
+      produit, { headers: authHeader() });
   }
 
   deleteProduit(produit) {
-    return axios.put(API_URL + `employe/produits/delete`, produit, { headers: authHeader()})
+    return axios.put(API_URL + `employe/produits/delete`, produit, { headers: authHeader() })
   }
 
   getAdminBoard() {

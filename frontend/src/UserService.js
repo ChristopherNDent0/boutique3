@@ -9,7 +9,7 @@ class UserService {
   }
 
   createProduct() {
-    return axios.post(API_URL + 'employe/create', {product}, { headers: authHeader() });
+    return axios.post(API_URL + 'employe/create', { product }, { headers: authHeader() });
   }
 }
 

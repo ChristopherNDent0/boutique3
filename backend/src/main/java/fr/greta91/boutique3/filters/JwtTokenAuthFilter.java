@@ -36,10 +36,9 @@ public class JwtTokenAuthFilter extends OncePerRequestFilter {
 				if (parsed.isEmploye()) {
 					authorities.add(new SimpleGrantedAuthority("ROLE_EMPLOYE"));
 					authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-				}
-				else {
+				} else {
 					authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-					
+
 				}
 				UsernamePasswordAuthenticationToken result = new UsernamePasswordAuthenticationToken(parsed.getLogin(),
 						"", authorities);
@@ -50,4 +49,3 @@ public class JwtTokenAuthFilter extends OncePerRequestFilter {
 	}
 
 }
-

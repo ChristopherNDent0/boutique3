@@ -32,8 +32,8 @@ class AuthService {
   updateClient(client) {
     return axios
       .post(API_URL + "register", {
-        nom:client.nom,
-        prenom:client.prenom
+        nom: client.nom,
+        prenom: client.prenom
       })
       .then(response => {
         if (response.data.accessToken) {
@@ -45,8 +45,8 @@ class AuthService {
   createEmploye(employe) {
     return axios
       .post(API_URL + "register", {
-        nom:employe.nom,
-        prenom:employe.prenom
+        nom: employe.nom,
+        prenom: employe.prenom
       })
       .then(response => {
         if (response.data.accessToken) {

@@ -20,20 +20,21 @@ export default class ProduitListe extends React.Component {
         return (
             <React.Fragment>
                 {!!this.props.searchWord && (<div>{this.props.produitsCount} produit(s) trouvés. Voici les résultats pour le mot-clé "{this.props.searchWord}"</div>)}
-                <ReactPaginate
-                    previousLabel={"← Previous"}
-                    nextLabel={"Next →"}
-                    initialSelected={this.props.currentPage}
-                    forcePage={this.props.currentPage}
-                    pageCount={this.props.pageCount}
-                    onPageChange={this.handlePageClick}
-                    containerClassName={"pagination"}
-                    previousLinkClassName={"pagination__link"}
-                    nextLinkClassName={"pagination__link"}
-                    disabledClassName={"pagination__link--disabled"}
-                    activeClassName={"pagination__link--active"}
-                    
-                />
+                <div id="All">
+                    <ReactPaginate
+                        previousLabel={"← Previous"}
+                       nextLabel={"Next →"}
+                       initialSelected={this.props.currentPage}
+                        forcePage={this.props.currentPage}
+                        pageCount={this.props.pageCount}
+                        onPageChange={this.handlePageClick}
+                        containerClassName={"pagination"}
+                        previousLinkClassName={"pagination__link"}
+                        nextLinkClassName={"pagination__link"}
+                        disabledClassName={"pagination__link--disabled"}
+                        activeClassName={"pagination__link--active"}
+                    />
+                </div>          
                 <section id="produits">
                 {this.props.produits.map((p) => {
                             if (p.estActif === true) { 
@@ -41,7 +42,6 @@ export default class ProduitListe extends React.Component {
                             <section>
                             <div><img src={p.urlImage} height="150"/></div>
                             <section id="NameCategoryPrice">
-                                {/* <div><img src={p.urlImage} height="150"/></div> */}
                                 <div id="ProductName">{p.productName}</div>
                                 <div>{p.category.categoryName}</div>
                                 <div id="price">{p.price}&euro;</div>

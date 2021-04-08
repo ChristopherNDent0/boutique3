@@ -27,23 +27,24 @@ public class AuthService {
 
 	@Transactional(readOnly = true)
 	public UserDTO login(String username, String password) throws UserNotFoundException {
-		System.out.println("username : "+ username);
-		System.out.println("password : "+ password);
+		System.out.println("username : " + username);
+		System.out.println("password : " + password);
 		User user = userRepo.findByUsername(username);
-		if(null == user) throw new UserNotFoundException();
-		
+		if (null == user)
+			throw new UserNotFoundException();
+
 		boolean passwordCorrect = BCrypt.checkpw(password, user.getPassword());
-		if(!passwordCorrect) throw new UserNotFoundException();
-		
+		if (!passwordCorrect)
+			throw new UserNotFoundException();
+
 		UserDTO userDTO = new UserDTO();
 		userDTO.setNom(user.getNom());
 		userDTO.setPrenom(user.getPrenom());
 		userDTO.setUsername(user.getUsername());
-		List<String> roles = user.getRoles().stream().map(r ->{
+		List<String> roles = user.getRoles().stream().map(r -> {
 			return r.getLibelle();
 		}).collect(Collectors.toList());
 		userDTO.setRoles(roles);
-		return userDTO ;
+		return userDTO;
 	}
 }
-
