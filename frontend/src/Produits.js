@@ -5,6 +5,9 @@ import ProduitForm from './ProduitForm';
 import ProduitListe from './ProduitListe';
 import SearchBar from './SearchBar';
 import ProduitService from './ProduitService'
+import AuthService from './AuthService';
+
+
 
 export default class Produits extends React.Component {
   constructor(props) {
@@ -30,54 +33,16 @@ export default class Produits extends React.Component {
     this.getProduits(this.state.currentPage, perPage, this.state.searchWord);
   }
   getProduits = (pageNumber = this.state.currentPage, perPage = this.state.perPage, searchWord = "", categoryId = 0, price = 0) => {
-    // fetch(`http://localhost:8080/produits?pageNumber=${pageNumber}&perPage=${perPage}&searchWord=${searchWord}`, {
-    //       method: "GET"
-    //     })
-    //     .then((data)=>{
-    //         console.log(data);
-    //         return data.json()
-    //       })
-    //     .then((res)=> {
-    //       console.log(res);
-    //       this.setState({
-    //           produits: res
-    //         }
-    //         )
-    //     })
+
     ProduitService.getProduits(pageNumber, perPage, searchWord, categoryId, price).then((response) => {
       console.log(response.data);
       this.setState({ produits: response.data })
-      console.log("PRODUITS");
       console.log(this.state.produits);
     }, (error) => {
       console.log(error);
     })
   }
-  // getProduitsByCategory = (pageNumber=this.state.currentPage, perPage=this.state.perPage, categoryId=null)=>{
-  //   ProduitService.getProduits(pageNumber, perPage, categoryId).then((response)=>{
-  //     console.log(response.data);
-  //     this.setState({produits: response.data})
-  //   }, (error)=>{
-  //     console.log(error);
-  //   })
-  // }
-  // getProduitsCountByCategory = (categoryId=null)=>{
-  //   fetch(`http://localhost:8080/api/public/count?categoryId=${categoryId}`, {
-  //         method: "GET"
-  //       })
-  //       .then((data)=>{
-  //           console.log(data);
-  //           return data.json()
-  //         })
-  //       .then((res)=> {
-  //         console.log(res);
-  //         this.setState({
-  //           produitsCount: res.produitsCount,
-  //           pageCount: Math.ceil(res.produitsCount / this.state.perPage)
-  //           }
-  //         )
-  //       })
-  // }
+
   getProduitsCount = (searchWord = "", categoryId = 0, price = 0) => {
     fetch(`http://localhost:8080/api/public/count?searchWord=${searchWord}&categoryId=${categoryId}&price=${price}`, {
       method: "GET"
@@ -98,19 +63,7 @@ export default class Produits extends React.Component {
   save = (produit) => {
     //ajout d'un nouveau produit
     if (!produit.id) {
-      //   fetch("http://localhost:8080/create", {
-      //     method: "POST",
-      //     headers: {"Content-type": "application/json"},
-      //     body: JSON.stringify(produit)
-      //   })
-      //   .then((data)=>data.json())
-      //   .then((res)=>{
-      //     // this.setState({produits: this.state.produits.concat(res)})
-      //     // console.log(res)
-      //     this.getProduitsCount();
-      //     this.props.history.push(`/produits?currentPage=${this.state.pageCount-1}&searchWord=${this.state.searchWord}`)
-      //     this.setCurrentPage(this.state.pageCount-1)
-      //   })
+
       ProduitService.createProduit(produit).then((response) => {
         console.log(response.data);
         this.getProduitsCount();
@@ -157,22 +110,7 @@ export default class Produits extends React.Component {
         }
       }
     })
-    // fetch(`http://localhost:8080/api/employe/produits/delete/${produitId}`, {
-    //   method: "DELETE"
-    // })
-    // .then((data)=>{
-    //     console.log(data);
-    //     if (data.status === 200) {
-    //         this.setState(
-    //             {produits : 
-    //               this.state.produits.filter((produit)=> produit.id !== produitId)})
-    //         this.getProduitsCount();
-    //     }
-    //     else{
-    //         alert("Opération échouée!")
-    //     }
 
-    // })
   }
 
   searchByPrice = (price) => {
@@ -202,12 +140,15 @@ export default class Produits extends React.Component {
 
   render() {
     console.log(this.props.match);
-    const isEmploye = this.props.currentUser && this.props.currentUser.roles && this.props.currentUser.roles.includes("ROLE_EMPLOYE");
+    //const isEmploye = this.props.currentUser && this.props.currentUser.roles && this.props.currentUser.roles.includes("ROLE_EMPLOYE");
+    const isEmploye = AuthService.isEmploye(this.props.currentUser);
     return (
       <React.Fragment>
         <div className="App-header">
           {(isEmploye && <Link to={this.props.match.url + '/create'}>Créer un produit</Link>)}
-          <SearchBar searchCallback={this.search} searchByCategoryCallback={this.searchByCategory} annulerSearch={this.clearSearchWord} searchByPrice={this.searchByPrice} />
+          <SearchBar searchCallback={this.search} searchByCategoryCallback={this.searchByCategory}
+                                                  annulerSearch={this.clearSearchWord} 
+                                                  searchByPrice={this.searchByPrice} />
         </div>
         <Switch>
           <Route path={this.props.match.path + '/create'} render={
@@ -219,19 +160,20 @@ export default class Produits extends React.Component {
           <Route path={this.props.match.path + '/:id'} component={FicheProduit} />
           <Route exact path={this.props.match.path + '/'} render={
             (props) => <ProduitListe {...props}
-              currentUser={this.props.currentUser}
-              searchWord={this.state.searchWord}
-              search={this.search}
-              clearSearchWord={this.clearSearchWord}
-              produits={this.state.produits}
-              produitsCount={this.state.produitsCount}
-              currentPage={this.state.currentPage}
-              perPage={this.state.perPage}
-              pageCount={this.state.pageCount}
-              setCurrentPage={this.setCurrentPage}
-              deleteCallback={this.delete}
-              searchByCategory={this.searchByCategory}
-               />
+                                      currentUser={this.props.currentUser}
+                                      searchWord={this.state.searchWord}
+                                      search={this.search}
+                                      clearSearchWord={this.clearSearchWord}
+                                      produits={this.state.produits}
+                                      produitsCount={this.state.produitsCount}
+                                      currentPage={this.state.currentPage}
+                                      perPage={this.state.perPage}
+                                      pageCount={this.state.pageCount}
+                                      setCurrentPage={this.setCurrentPage}
+                                      deleteCallback={this.delete}
+                                      searchByCategory={this.searchByCategory}
+                                      addToCart={this.props.addToCart}
+            />
           } />
         </Switch>
 
@@ -241,23 +183,7 @@ export default class Produits extends React.Component {
   }
   componentDidMount() {
     //get produits
-    // fetch(`http://localhost:8080/produits`, {
-    //     method: "GET"
-    //   })
-    //   .then((data)=>{
-    //       console.log(data);
-    //       return data.json()
-    //     })
-    //   .then((res)=> {
-    //     console.log(res);
-    //     this.setState({
-    //         produits: res
-    //       }
-    //       )
-    //   })
-    // if(this.state.searchWord !== ""){
-    //   this.getProduitsCount();
-    // }
+
     this.getProduitsCount();
     // this.getProduits();
 

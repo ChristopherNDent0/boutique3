@@ -1,7 +1,7 @@
 import React from 'react';
 
-export default class FicheProduit extends React.Component{
-    constructor(props){
+export default class FicheProduit extends React.Component {
+    constructor(props) {
         super(props);
         this.state = {
             produit: {
@@ -14,12 +14,12 @@ export default class FicheProduit extends React.Component{
                     categoryId: null,
                     categoryName: ""
                 },
-                price: "" 
+                price: ""
             }
         }
     }
 
-    render(){
+    render() {
         return (
             <div>
                 <ul>
@@ -27,7 +27,7 @@ export default class FicheProduit extends React.Component{
                     <li>Nom : {this.state.produit.productName}</li>
                     <li>Stock : {this.state.produit.stock}</li>
                     <li>Description : {this.state.produit.description}</li>
-                    <li><img src={this.state.produit.urlImage} height="150"/></li>
+                    <li><img src={this.state.produit.urlImage} height="150" /></li>
                     <li>Categorie : {this.state.produit.category.categoryName}</li>
                     <li>Prix : {this.state.produit.price}</li>
                 </ul>
@@ -35,15 +35,27 @@ export default class FicheProduit extends React.Component{
         )
     }
 
-    componentDidMount(){
+    componentDidMount() {
         const id = this.props.match.params.id;
-        fetch("http://localhost:8080/api/public/produits/"+id, {
+        fetch("http://localhost:8080/api/public/produits/" + id, {
             method: "GET"
         })
-        .then((data)=>data.json())
-        .then((res)=>{
-        this.setState({produit : res}) //{"productId":1,"productName":"HP","stock":5,"description":"text","urlImage":"adz","category":{"categoryId":1,"categoryName":"ordinateur"},"price":200.0}
-        console.log(res)
-      })
+            .then((response) => {
+                if (response.ok) {
+                    response.json()
+                        .then(data => {
+                            this.setState({ produit: data })
+                        })
+                }
+                else{
+                    if (response.status == 400) {
+                        this.setState({message:"Ce produit n'existe pas"});
+                    } else if (response.status == 404) {
+                        this.setState({message:"le id n'existe pas"});
+                    }
+                }
+                //{"productId":1,"productName":"HP","stock":5,"description":"text","urlImage":"adz","category":{"categoryId":1,"categoryName":"ordinateur"},"price":200.0}
+
+            });
     }
 }

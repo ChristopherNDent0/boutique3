@@ -1,4 +1,6 @@
 import React from 'react';
+import AuthService from './AuthService';
+
 
 export default class ProduitForm extends React.Component {
     constructor(props) {

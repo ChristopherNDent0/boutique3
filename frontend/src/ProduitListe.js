@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 
+
 export default class ProduitListe extends React.Component {
     constructor(props) {
         super(props);
@@ -57,6 +58,7 @@ export default class ProduitListe extends React.Component {
                                 <td>{p.price}&euro;</td>
                                 <td><img src={p.urlImage} height="150"/></td>
                                 <td>
+                                    <button onClick={(p)=>this.props.addToCart(p)}>Ajouter au panier</button>
                                     <Link to={this.props.match.url + '/'+p.productId}>Afficher</Link>
                                     <Link style={isEmploye ? {}: {display: "none" }} to={this.props.match.url + '/edit/'+p.productId}>Modifier</Link>
                                     <button style={isEmploye ? {}: {display: "none" }}  onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) {this.props.deleteCallback(p)}}}>Supprimer</button>     

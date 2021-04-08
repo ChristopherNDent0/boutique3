@@ -16,9 +16,14 @@ class ProduitService {
     return axios.post(API_URL + 'employe/produits/create', 
                 produit, { headers: authHeader() });
   }
+  // editProduit(produit) {
+  //   return axios.put(API_URL + 'employe/produits/edit', 
+  //               produit, { headers: authHeader() });
+  // }
 
   deleteProduit(produit) {
-    return axios.put(API_URL + `employe/produits/delete`, produit, { headers: authHeader()})
+    return axios.put(API_URL + `employe/produits/delete`, 
+                produit, { headers: authHeader()})
   }
 
   getAdminBoard() {
