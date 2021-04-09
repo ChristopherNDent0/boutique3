@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
-import FicheProduit from './FicheProduit';
-import ProduitForm from './ProduitForm';
-import ProduitListe from './ProduitListe';
-import SearchBar from './SearchBar';
+import FicheProduit from '../pages/product-page/FicheProduit';
+import ProduitForm from '../components/form/ProduitForm';
+import ProduitListe from '../components/list/ProduitListe';
+import SearchBar from '../components/search/SearchBar';
 import ProduitService from './ProduitService'
 
 export default class Produits extends React.Component {

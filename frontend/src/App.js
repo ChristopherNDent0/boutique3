@@ -2,12 +2,12 @@ import React from 'react';
 
 import './App.css';
 import { Link, Route } from 'react-router-dom';
-import Produits from './Produits';
-import Categories from './Categories';
-import Login from './Login';
-import AuthService from './AuthService';
-import AccessDenied from './AccessDenied';
-import Panier from './Panier';
+import Produits from './services/Produits';
+import Categories from './pages/categories/Categories';
+import Login from './pages/login/Login';
+import AuthService from './auth/AuthService';
+import AccessDenied from './auth/AccessDenied';
+import Panier from './pages/cart/Panier';
 
 class App extends React.Component {
   constructor(props) {

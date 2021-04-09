@@ -1,5 +1,5 @@
 import React from 'react';
-import categories from './Categories';
+import categories from '../../pages/categories/Categories';
 
 export default class ProduitForm extends React.Component{
     constructor(props){

@@ -1,10 +1,10 @@
 import { logDOM } from '@testing-library/react';
 import React from 'react';
-import ProductTable from './ProductTable';
+import ProductTable from '../components/table/ProductTable';
 import { Link, Redirect, Route, Switch } from 'react-router-dom';
-import ProductForm from './ProductForm';
-import ShowProduct from './ShowProduct';
-import SearchProduct from './SearchProduct';
+import ProductForm from '../components/form/ProductForm';
+import ShowProduct from '../pages/search-results/ShowProduct';
+import SearchProduct from '../pages/search-results/SearchProduct';
 
 export default class ProductDisplay extends React.Component{
   constructor(props){
