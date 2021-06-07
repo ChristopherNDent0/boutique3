@@ -7,7 +7,7 @@ export default class SearchBar extends React.Component {
     this.state = {
       searchWord: "",
       categoryId: 0,
-      price: 0,
+      price: 50,
       categories: []
     }
     this.handleChange = this.handleChange.bind(this);

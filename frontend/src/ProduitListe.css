@@ -4,6 +4,7 @@
     background-color: rgb(221, 221, 240);
     padding: 1em;
     border: 1em;
+	border-radius: 2em;
 }
 
 #produits > section {

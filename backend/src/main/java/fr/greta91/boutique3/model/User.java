@@ -37,24 +37,11 @@ public class User implements Serializable {
 	@Column(nullable = false)
 	private String prenom;
 
-//	@NotNull
-//	@Column(nullable = false, unique = true, length = 255)
-//	private String mail;
-//	
-//	@Column(nullable = true, length = 25)
-//	private String telephone;
-
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Role> roles;
 
-//	@OneToMany(mappedBy = "user")
-//	private Set<Adresse> adresses;
-
 	public User() {
 		roles = new HashSet<>();
-//		adresses = new HashSet<>();
-//		adresses.add(new Adresse());
-//		adresses.add(new Adresse());
 	}
 
 	public int getId() {
@@ -97,22 +84,6 @@ public class User implements Serializable {
 		this.prenom = prenom;
 	}
 
-//	public String getMail() {
-//		return mail;
-//	}
-//
-//	public void setMail(String mail) {
-//		this.mail = mail;
-//	}
-//
-//	public String getTelephone() {
-//		return telephone;
-//	}
-//
-//	public void setTelephone(String telephone) {
-//		this.telephone = telephone;
-//	}
-
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -120,17 +91,5 @@ public class User implements Serializable {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-
-//	public Set<Adresse> getAdresses() {
-//		return adresses;
-//	}
-//
-//	public void setAdresses(HashSet<Adresse> adresses) {
-//		this.adresses = adresses;
-//	}
-//	
-//	public void addAdresse(Adresse adresse) {
-//		this.adresses.add(adresse);
-//	}
 
 }

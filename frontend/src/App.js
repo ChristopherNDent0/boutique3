@@ -20,7 +20,7 @@ class App extends React.Component {
     // this.deleteAllFromCart = this.deleteAllFromCart.bind(this);
   }
 
-  addToCart = (produit, quantite = 1) => {
+  addToCart = (produit) => {
     this.setState({ panierCount: this.state.panierCount + 1 })
     let newProduit = true;
 
@@ -49,8 +49,8 @@ class App extends React.Component {
   }
   editCartItem = (produitId, quantite) => {
     this.setState((state) => state.panier = state.panier.map((p) => {
-        p.quantite = p.product.productId === produitId ? quantite : p.quantite;
-        return p;
+      p.quantite = p.product.productId === produitId ? quantite : p.quantite;
+      return p;
     }
     ))
   }
@@ -78,7 +78,7 @@ class App extends React.Component {
             <span>{this.state.currentUser.username} | </span>
             <a href="/login" className="nav-link" onClick={this.logOut}>
               Se déconnecter
-                                        </a>
+            </a>
           </div>}
           {(!this.state.currentUser) && <Link to="/login">Se connecter</Link>}
 

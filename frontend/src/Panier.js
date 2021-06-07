@@ -11,21 +11,6 @@ export default class Panier extends React.Component {
     render() {
         return (
             <React.Fragment>
-                {/* <div id="All">
-                    <ReactPaginate
-                        previousLabel={"← Previous"}
-                        nextLabel={"Next →"}
-                        initialSelected={this.props.currentPage}
-                        forcePage={this.props.currentPage}
-                        pageCount={this.props.pageCount}
-                        onPageChange={this.handlePageClick}
-                        containerClassName={"pagination"}
-                        previousLinkClassName={"pagination__link"}
-                        nextLinkClassName={"pagination__link"}
-                        disabledClassName={"pagination__link--disabled"}
-                        activeClassName={"pagination__link--active"}
-                    />
-                </div> */}
                 <section id="produits">
                     {this.props.panier.map((p) => {
                         return (
@@ -36,7 +21,7 @@ export default class Panier extends React.Component {
                                     <div id="Price">Prix à l'unité : {p.product.price}&euro;<br/>
                                                     Prix total : {p.product.price*p.quantite}&euro;
                                     </div>
-                                    <div id="Quantity">Quantite <input type="number" value={p.quantite} onChange={(e) => {(p.quantite<=1) ? this.props.deleteFromCart(p.product.productId) : this.handleChange(e, p.product.productId)}} /></div>
+                                    <div id="Quantity">Quantite <input type="number" value={p.quantite} onChange={(e) => {(p.quantite<=0) ? this.props.deleteFromCart(p.product.productId) : this.handleChange(e, p.product.productId)}} /></div>
                                 </section>
                                 <div><button id="DeleteProductCart" onClick={() => this.props.deleteFromCart(p.product.productId)}>Supprimer</button></div>
                             </section>)
